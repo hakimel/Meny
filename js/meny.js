@@ -12,8 +12,8 @@
 		startTouchX = 0,
 		isActive = false;
 
-	window.addEventListener( 'mousemove', onMouseMove, false );
-	window.addEventListener( 'touchstart', onTouchStart, false );
+	document.addEventListener( 'mousemove', onMouseMove, false );
+	document.addEventListener( 'touchstart', onTouchStart, false );
 
 	function onMouseMove( event ) {
 		var x = event.clientX,
@@ -33,8 +33,8 @@
 		if( isActive || lastTouchX < activateX ) {
 			event.preventDefault();
 
-			window.addEventListener( 'touchmove', onTouchMove, false );
-			window.addEventListener( 'touchend', onTouchEnd, false );
+			document.addEventListener( 'touchmove', onTouchMove, false );
+			document.addEventListener( 'touchend', onTouchEnd, false );
 		}
 	}
 
@@ -48,10 +48,10 @@
 			activate();
 		}
 	}
-	
+
 	function onTouchEnd( event ) {
-		window.addEventListener( 'touchmove', onTouchMove, false );
-		window.addEventListener( 'touchend', onTouchEnd, false );
+		document.addEventListener( 'touchmove', onTouchMove, false );
+		document.addEventListener( 'touchend', onTouchEnd, false );
 	}
 
 	function activate() {
