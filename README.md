@@ -1,6 +1,6 @@
 # Meny
 
-
+A UI experiment with a 3D fold-in menu. Requires a browser with support for CSS 3D transforms. Also works in Mobile Safari.
 
 [Check out the demo page](http://lab.hakim.se/meny/).
 
