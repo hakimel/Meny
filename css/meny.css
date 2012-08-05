@@ -6,6 +6,7 @@
 html, 
 body {
 	height: 100%;
+	overflow: hidden;
 }
 
 body {
@@ -13,7 +14,7 @@ body {
 	background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAAECAYAAACp8Z5+AAAAGklEQVQIW2NkYGD4D8SMQAwGcAY2AbBKDBUAVuYCBQPd34sAAAAASUVORK5CYII=);
 	background-repeat: repeat;
 
-	font-family: 'Lato', Times, 'Times New Roman', serif;
+	font-family: 'Lato', Helvetica, sans-serif;
 	font-size: 16px;
 	color: #222;
 }
@@ -56,6 +57,9 @@ small {
 	display: block;
 	margin: 10px 0 20px 0;
 	color: #333;
+	font-size: 0.85em;
+
+	-webkit-text-size-adjust: none;
 }
 
 .sharing {
@@ -124,6 +128,20 @@ body {
 		        transform: rotateY(0deg);
 	}
 
+.meny ul {
+	margin-top: 10px;
+}
+	.meny ul li {
+		list-style: none;
+		font-size: 20px;
+		padding: 3px 10px;
+	}
+		.meny ul li:before {
+			content: '-';
+			margin-right: 5px;
+			color: rgba( 255, 255, 255, 0.2 );
+		}
+
 .meny-contents {
 	background: #eee;
 	padding: 20px 30px;
@@ -163,8 +181,15 @@ body {
 	top: 0;
 	left: 0;
 	visibility: hidden;
-	background: rgba( 0, 0, 0, 0 );
 	z-index: 1000;
+	opacity: 0;
+
+	background: -moz-linear-gradient(left,  rgba(0,0,0,0.15) 0%, rgba(0,0,0,0.65) 100%);
+	background: -webkit-gradient(linear, left top, right top, color-stop(0%,rgba(0,0,0,0.15)), color-stop(100%,rgba(0,0,0,0.65)));
+	background: -webkit-linear-gradient(left,  rgba(0,0,0,0.15) 0%,rgba(0,0,0,0.65) 100%);
+	background: -o-linear-gradient(left,  rgba(0,0,0,0.15) 0%,rgba(0,0,0,0.65) 100%);
+	background: -ms-linear-gradient(left,  rgba(0,0,0,0.15) 0%,rgba(0,0,0,0.65) 100%);
+	background: linear-gradient(to right,  rgba(0,0,0,0.15) 0%,rgba(0,0,0,0.65) 100%);
 
 	-webkit-transition: all .4s ease;
 	   -moz-transition: all .4s ease;
@@ -174,7 +199,7 @@ body {
 }
 	.meny-active .meny-contents .cover {
 		visibility: visible;
-		background: rgba( 0, 0, 0, 0.5 );
+		opacity: 1;
 	}
 
 .meny-arrow {
