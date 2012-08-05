@@ -1,5 +1,5 @@
 /*!
- * meny.css 0.2
+ * meny 0.1
  * http://lab.hakim.se/meny
  * MIT licensed
  *
@@ -7,11 +7,12 @@
  */
 (function(){
 
-	var activateX = 40;
-	var deactivateX = 300;
-	var isActive = false;
+	var activateX = 40,
+		deactivateX = 300,
+		isActive = false;
 
 	window.addEventListener( 'mousemove', onMouseMove, false );
+	window.addEventListener( 'touchmove', onTouchMove, false );
 
 	function onMouseMove( event ) {
 		var x = event.clientX,
@@ -23,6 +24,10 @@
 		else if( !isActive && x < activateX ) {
 			activate();
 		}
+	}
+
+	function onTouchMove( event ) {
+
 	}
 
 	function activate() {

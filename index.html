@@ -4,45 +4,50 @@
 	<head>
 		<meta charset="utf-8">
 		
-		<title>Meny</title>
+		<title>Meny - CSS 3D fold-in menu concept</title>
 
 		<meta name="description" content="A playful JavaScript+CSS ribbon">
 		<meta name="author" content="Hakim El Hattab">
 		
 		<link href='http://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
 		
-		<link rel="stylesheet" href="css/demo.css">
 		<link rel="stylesheet" href="css/meny.css">
 	</head>
 	
 	<body>
 
+		<!-- Menu element that rolls in from the left -->
 		<div class="meny">
 			<h2>A hidden menu</h2>
 		</div>
 
-		<div class="meny-arrow"></div>
+		<!-- Arrow that appears from the left when menu is collapsed -->
+		<div class="meny-arrow">&#x25BA;</div>
 
+		<!-- Contents that will be rotated when the meny is expanded -->
 		<div class="meny-contents">
+			<div class="cover"></div>
 			<h1>Meny</h1>
 			<p>
-				
+				A UI experiment with a 3D fold-in menu. Move your mouse to the left edge of this page &mdash; or swipe to the right if you're on a touch device &mdash; to expand the 
+				menu. 
+			</p>
+			<p>
+				This was created using CSS 3D transforms. JavaScript is used to track mouse/touch movement. The source 
+				code is available at <a href="http://github.com/hakimel/meny">github.com/hakimel/meny</a>.
 			</p>
 			<small>
 				Created by <a href="http://twitter.com/hakimel">@hakimel</a> / <a href="http://hakim.se/">http://hakim.se</a>
 			</small>
+
+			<div class="sharing">
+				<a href="http://twitter.com/share" class="twitter-share-button" data-text="Meny - a CSS 3D fold-in menu concept by @hakimel" data-url="http://lab.hakim.se/meny" data-count="small" data-related="hakimel"></a>
+				
+				<iframe id="facebook-button" src="http://www.facebook.com/plugins/like.php?href=http%3A%2F%2Flab.hakim.se%2Fmeny%2F&layout=button_count&show_faces=false&width=83&action=like&font=arial&colorscheme=light&height=21" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:85px; height:24px; position: relative; top: 4px;" allowTransparency="true"></iframe> 
+			</div>
 		</div class="meny-contents">
 
 		<script src="js/meny.js"></script>
-
-
-		<!-- Third party stuffs -->
-
-		<div class="sharing">
-			<a href="http://twitter.com/share" class="twitter-share-button" data-text="forkit.js - an animated ribbon UI concept @hakimel" data-url="http://lab.hakim.se/forkit-js" data-count="small" data-related="hakimel"></a>
-			
-			<iframe id="facebook-button" src="http://www.facebook.com/plugins/like.php?href=http%3A%2F%2Flab.hakim.se%2Fforkit-js%2F&layout=button_count&show_faces=false&width=93&action=like&font=arial&colorscheme=light&height=21" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:85px; height:24px; position: relative; top: 4px;" allowTransparency="true"></iframe> 
-		</div>
 
 		<script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>
 
