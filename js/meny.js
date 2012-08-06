@@ -30,7 +30,7 @@
 	function onTouchStart( event ) {
 		lastTouchX = event.touches[0].clientX;
 
-		if( isActive || lastTouchX < activateX ) {
+		if( event.target.nodeName !== 'A' && ( isActive || lastTouchX < activateX ) ) {
 			event.preventDefault();
 
 			document.addEventListener( 'touchmove', onTouchMove, false );
