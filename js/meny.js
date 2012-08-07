@@ -32,9 +32,7 @@
 	function onTouchStart( event ) {
 		lastTouchX = event.touches[0].clientX;
 
-		if( event.target.nodeName !== 'A' && ( isActive || lastTouchX < activateX ) ) {
-			
-
+		if( isActive || lastTouchX < activateX ) {
 			document.addEventListener( 'touchmove', onTouchMove, false );
 			document.addEventListener( 'touchend', onTouchEnd, false );
 		}
