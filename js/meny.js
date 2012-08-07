@@ -1,5 +1,5 @@
 /*!
- * meny 0.1
+ * meny 0.2
  * http://lab.hakim.se/meny
  * MIT licensed
  *
@@ -11,41 +11,57 @@
 
 	var activateX = 40,
 		deactivateX = meny.offsetWidth || 300,
-		startTouchX = 0,
-		isActive = false;
+		touchStartX = null,
+		touchMoveX = null,
+		isActive = false,
+		isMouseDown = false;
 
+	document.addEventListener( 'mousedown', onMouseDown, false );
+	document.addEventListener( 'mouseup', onMouseUp, false );
 	document.addEventListener( 'mousemove', onMouseMove, false );
 	document.addEventListener( 'touchstart', onTouchStart, false );
+	document.addEventListener( 'touchend', onTouchEnd, false );
+
+	function onMouseDown( event ) {
+		isMouseDown = true;
+	}
 
 	function onMouseMove( event ) {
-		var x = event.clientX,
-			y = event.clientY;
+		// Prevent opening/closing when mouse is down since 
+		// the user may be selecting text
+		if( !isMouseDown ) {
+			var x = event.clientX;
 
-		if( isActive && x > deactivateX ) {
-			deactivate();
-		}
-		else if( !isActive && x < activateX ) {
-			activate();
+			if( x > deactivateX ) {
+				deactivate();
+			}
+			else if( x < activateX ) {
+				activate();
+			}
 		}
 	}
 
-	function onTouchStart( event ) {
-		lastTouchX = event.touches[0].clientX;
+	function onMouseUp( event ) {
+		isMouseDown = false;
+	}
 
-		if( isActive || lastTouchX < activateX ) {
+	function onTouchStart( event ) {
+		touchStartX = event.touches[0].clientX;
+		touchMoveX = null;
+
+		if( isActive || touchStartX < activateX ) {
 			document.addEventListener( 'touchmove', onTouchMove, false );
-			document.addEventListener( 'touchend', onTouchEnd, false );
 		}
 	}
 
 	function onTouchMove( event ) {
-		var x = event.touches[0].clientX;
+		touchMoveX = event.touches[0].clientX;
 
-		if( isActive && x < lastTouchX - activateX ) {
+		if( isActive && touchMoveX < touchStartX - activateX ) {
 			deactivate();
 			event.preventDefault();
 		}
-		else if( !isActive && lastTouchX < activateX && x > lastTouchX + activateX ) {
+		else if( touchStartX < activateX && touchMoveX > touchStartX + activateX ) {
 			activate();
 			event.preventDefault();
 		}
@@ -53,7 +69,19 @@
 
 	function onTouchEnd( event ) {
 		document.addEventListener( 'touchmove', onTouchMove, false );
-		document.addEventListener( 'touchend', onTouchEnd, false );
+
+		// If there was no movement this was a tap
+		if( touchMoveX === null ) {
+			// Hide the menu when tapping on the content area
+			if( touchStartX > deactivateX ) {
+				deactivate();
+			}
+			// Show the meny when tapping on the left edge
+			else if( touchStartX < activateX * 2 ) {
+				activate();
+			}
+		}
+		
 	}
 
 	function activate() {
