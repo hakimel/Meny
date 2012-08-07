@@ -1,5 +1,5 @@
 /*!
- * meny 0.2
+ * meny 0.3
  * http://lab.hakim.se/meny
  * MIT licensed
  *
@@ -161,6 +161,7 @@ body {
 	top: 45%;
 	left: 12px;
 	z-index: 2;
+	font-family: sans-serif;
 
 	font-size: 20px;
 	color: #333;
@@ -175,6 +176,33 @@ body {
 		left: -40px;
 	}
 
+
+/**
+ * Fallback for browsers that don't support transforms.
+ */
+
+.meny-no-transform .meny,
+.meny-no-transform .meny-contents {
+	-webkit-transition: left .4s ease;
+	   -moz-transition: left .4s ease;
+	    -ms-transition: left .4s ease;
+	     -o-transition: left .4s ease;
+	        transition: left .4s ease;
+}
+
+.meny-no-transform .meny {
+	left: -300px;
+}
+	.meny-no-transform.meny-active .meny {
+		left: 0px;
+	}
+
+.meny-no-transform .meny-contents {
+	position: absolute;
+}
+	.meny-no-transform.meny-active .meny-contents {
+		left: 300px;
+	}
 
 
 /**

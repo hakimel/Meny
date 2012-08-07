@@ -6,6 +6,9 @@ A three dimensional and space effecient menu concept. Requires a browser with su
 
 ## History
 
+#### 0.3
+- Fallback mode that doesn't rely on transforms
+
 #### 0.2
 - Cleaned up CSS
 - Fix bug where original events for taps on anchors were blocked

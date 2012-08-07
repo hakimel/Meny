@@ -1,5 +1,5 @@
 /*!
- * meny 0.2
+ * meny 0.3
  * http://lab.hakim.se/meny
  * MIT licensed
  *
@@ -16,11 +16,22 @@
 		isActive = false,
 		isMouseDown = false;
 
+	var supports3DTransforms = 'WebkitPerspective' in document.body.style ||
+								'MozPerspective' in document.body.style ||
+								'msPerspective' in document.body.style ||
+								'OPerspective' in document.body.style ||
+								'perspective' in document.body.style;
+
 	document.addEventListener( 'mousedown', onMouseDown, false );
 	document.addEventListener( 'mouseup', onMouseUp, false );
 	document.addEventListener( 'mousemove', onMouseMove, false );
 	document.addEventListener( 'touchstart', onTouchStart, false );
 	document.addEventListener( 'touchend', onTouchEnd, false );
+
+	// Fall back to more basic CSS
+	if( !supports3DTransforms ) {
+		document.documentElement.className += 'meny-no-transform';
+	}
 
 	function onMouseDown( event ) {
 		isMouseDown = true;
@@ -87,14 +98,18 @@
 	function activate() {
 		if( isActive === false ) {
 			isActive = true;
-			document.documentElement.classList.add( 'meny-active' );
+
+			// Add the meny-active class and clean up whitespace
+			document.documentElement.className = document.documentElement.className.replace( /\s+$/gi, '' ) + ' meny-active';
 		}
 	}
 
 	function deactivate() {
 		if( isActive === true ) {
 			isActive = false;
-			document.documentElement.classList.remove( 'meny-active' );
+
+			// Remove the meny-active class
+			document.documentElement.className = document.documentElement.className.replace( 'meny-active', '' );
 		}
 	}
 
