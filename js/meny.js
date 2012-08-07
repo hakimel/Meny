@@ -33,7 +33,7 @@
 		lastTouchX = event.touches[0].clientX;
 
 		if( event.target.nodeName !== 'A' && ( isActive || lastTouchX < activateX ) ) {
-			event.preventDefault();
+			
 
 			document.addEventListener( 'touchmove', onTouchMove, false );
 			document.addEventListener( 'touchend', onTouchEnd, false );
@@ -45,9 +45,11 @@
 
 		if( isActive && x < lastTouchX - activateX ) {
 			deactivate();
+			event.preventDefault();
 		}
 		else if( !isActive && lastTouchX < activateX && x > lastTouchX + activateX ) {
 			activate();
+			event.preventDefault();
 		}
 	}
 
