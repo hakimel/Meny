@@ -22,10 +22,6 @@ body {
 * {
 	margin: 0;
 	padding: 0;
-
-	-webkit-box-sizing: border-box;
-	   -moz-box-sizing: border-box;
-	        box-sizing: border-box;
 }
 
 a {
@@ -42,29 +38,9 @@ a {
 		color: #f76f76;
 	}
 
-h1, h2 {
+h1, 
+h2 {
 	font-size: 24px;
-}
-
-p {
-	max-width: 400px;
-	margin: 10px 0 10px 0;
-	font-size: 16px;
-	line-height: 1.32;
-}
-
-small {
-	display: block;
-	margin: 10px 0 20px 0;
-	color: #333;
-	font-size: 0.85em;
-
-	-webkit-text-size-adjust: none;
-}
-
-.sharing {
-	position: absolute;
-	bottom: 20px;
 }
 
 body {
@@ -87,6 +63,19 @@ body {
  	        perspective-origin: 0% 50%;
 }
 
+.meny,
+.meny-contents {
+	-webkit-box-sizing: border-box;
+	   -moz-box-sizing: border-box;
+	        box-sizing: border-box;
+
+	-webkit-transition: -webkit-transform .4s ease;
+	   -moz-transition: -moz-transform .4s ease;
+	    -ms-transition: -ms-transform .4s ease;
+	     -o-transition: -o-transform .4s ease;
+	        transition: transform .4s ease;
+}
+
 .meny {
 	position: fixed;
 	height: 100%;
@@ -97,16 +86,6 @@ body {
 
 	background: #333;
 	color: #eee;
-	
-	-webkit-box-sizing: border-box;
-	   -moz-box-sizing: border-box;
-	        box-sizing: border-box;
-
-	-webkit-transition: -webkit-transform .4s ease;
-	   -moz-transition: -moz-transform .4s ease;
-	    -ms-transition: -ms-transform .4s ease;
-	     -o-transition: -o-transform .4s ease;
-	        transition: transform .4s ease;
 
 	-webkit-transform-origin: 0% 50%;
 	   -moz-transform-origin: 0% 50%;
@@ -128,37 +107,11 @@ body {
 		        transform: rotateY(0deg);
 	}
 
-.meny ul {
-	margin-top: 10px;
-}
-	.meny ul li {
-		list-style: none;
-		font-size: 20px;
-		padding: 3px 10px;
-	}
-		.meny ul li:before {
-			content: '-';
-			margin-right: 5px;
-			color: rgba( 255, 255, 255, 0.2 );
-		}
-
 .meny-contents {
 	background: #eee;
 	padding: 20px 40px;
 	width: 100%;
 	height: 100%;
-	
-	-webkit-transition: -webkit-transform .4s ease;
-	   -moz-transition: -moz-transform .4s ease;
-	    -ms-transition: -ms-transform .4s ease;
-	     -o-transition: -o-transform .4s ease;
-	        transition: transform .4s ease;
-
-	-webkit-transform-style: preserve-3d;
-	   -moz-transform-style: preserve-3d;
-	    -ms-transform-style: preserve-3d;
-	     -o-transform-style: preserve-3d;
-	        transform-style: preserve-3d;
 
 	-webkit-transform-origin: 0% 50%;
 	   -moz-transform-origin: 0% 50%;
@@ -221,5 +174,50 @@ body {
 	.meny-active .meny-arrow {
 		left: -40px;
 	}
+
+
+
+/**
+ * Content-specific styles:;
+ */
+
+.meny ul {
+	margin-top: 10px;
+}
+	.meny ul li {
+		list-style: none;
+		font-size: 20px;
+		padding: 3px 10px;
+	}
+		.meny ul li:before {
+			content: '-';
+			margin-right: 5px;
+			color: rgba( 255, 255, 255, 0.2 );
+		}
+
+.meny-contents>article {
+	max-width: 400px;
+}
+.meny-contents p {
+	margin: 10px 0 10px 0;
+	font-size: 16px;
+	line-height: 1.32;
+}
+
+.meny-contents small {
+	display: block;
+	margin-top: 10px;
+	padding-top: 10px;
+	color: #333;
+	font-size: 0.85em;
+	border-top: 1px dashed #ccc;
+
+	-webkit-text-size-adjust: none;
+}
+
+.meny-contents .sharing {
+	position: absolute;
+	bottom: 20px;
+}
 
 
