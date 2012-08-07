@@ -7,8 +7,10 @@
  */
 (function(){
 
+	var meny = document.querySelector( '.meny' );
+
 	var activateX = 40,
-		deactivateX = 300,
+		deactivateX = meny.offsetWidth || 300,
 		startTouchX = 0,
 		isActive = false;
 

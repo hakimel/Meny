@@ -1,6 +1,9 @@
-
-/**
- * 
+/*!
+ * meny 0.1
+ * http://lab.hakim.se/meny
+ * MIT licensed
+ *
+ * Created by Hakim El Hattab, http://hakim.se
  */
 
 html, 
@@ -83,9 +86,6 @@ body {
 	z-index: 1;
 	margin: 0px;
 	padding: 20px;
-
-	background: #333;
-	color: #eee;
 
 	-webkit-transform-origin: 0% 50%;
 	   -moz-transform-origin: 0% 50%;
@@ -178,22 +178,26 @@ body {
 
 
 /**
- * Content-specific styles:;
+ * Styles that are more or less specific to the demo page:
  */
 
-.meny ul {
-	margin-top: 10px;
+.meny {
+	background: #333;
+	color: #eee;
 }
-	.meny ul li {
-		list-style: none;
-		font-size: 20px;
-		padding: 3px 10px;
+	.meny ul {
+		margin-top: 10px;
 	}
-		.meny ul li:before {
-			content: '-';
-			margin-right: 5px;
-			color: rgba( 255, 255, 255, 0.2 );
+		.meny ul li {
+			list-style: none;
+			font-size: 20px;
+			padding: 3px 10px;
 		}
+			.meny ul li:before {
+				content: '-';
+				margin-right: 5px;
+				color: rgba( 255, 255, 255, 0.2 );
+			}
 
 .meny-contents>article {
 	max-width: 400px;
