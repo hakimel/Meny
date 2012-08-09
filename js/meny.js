@@ -8,12 +8,13 @@
 (function(){
 
 	var meny = document.querySelector( '.meny' );
-	var menyWrapper = meny.parentNode;
 
 	// Avoid throwing errors if the script runs on a page with 
 	// no .meny
-	if( !meny || !menyWrapper ) { return; }
+	if( !meny || !meny.parentNode ) { return; }
 
+	var menyWrapper = meny.parentNode;
+	
 	// Add a class to identify the parent of the meny parts
 	menyWrapper.className += ' meny-wrapper';
 
