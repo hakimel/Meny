@@ -1,10 +1,15 @@
 /*!
- * meny 0.3
+ * meny 0.4
  * http://lab.hakim.se/meny
  * MIT licensed
  *
  * Created by Hakim El Hattab, http://hakim.se
  */
+
+* {
+	margin: 0;
+	padding: 0;
+}
 
 html, 
 body {
@@ -22,48 +27,21 @@ body {
 	color: #222;
 }
 
-* {
-	margin: 0;
-	padding: 0;
-}
-
-a {
-	color: #c2575b;
-	text-decoration: none;
-
-	-webkit-transition: 0.15s color ease;
-	   -moz-transition: 0.15s color ease;
-	    -ms-transition: 0.15s color ease;
-	     -o-transition: 0.15s color ease;
-	        transition: 0.15s color ease;
-}
-	a:hover {
-		color: #f76f76;
-	}
-
-h1, 
-h2 {
-	font-size: 24px;
-}
-
-body {
-	-webkit-transition: -webkit-perspective .4s ease;
-	   -moz-transition: -moz-perspective .4s ease;
-	    -ms-transition: -ms-perspective .4s ease;
-	     -o-transition: -o-perspective .4s ease;
-	        transition: perspective .4s ease;
-	
+/** 
+  * Element which wraps all of the other .meny parts 
+  */
+.meny-wrapper {
 	-webkit-perspective: 800px;
 	   -moz-perspective: 800px;
 	    -ms-perspective: 800px;
 	     -o-perspective: 800px;
 	        perspective: 800px;
 
- 	-webkit-perspective-origin: 0% 50%;
- 	   -moz-perspective-origin: 0% 50%;
- 	    -ms-perspective-origin: 0% 50%;
- 	     -o-perspective-origin: 0% 50%;
- 	        perspective-origin: 0% 50%;
+	-webkit-perspective-origin: 0% 50%;
+	   -moz-perspective-origin: 0% 50%;
+	    -ms-perspective-origin: 0% 50%;
+	     -o-perspective-origin: 0% 50%;
+	        perspective-origin: 0% 50%;
 }
 
 .meny,
@@ -79,7 +57,11 @@ body {
 	        transition: transform .4s ease;
 }
 
+/** 
+ * The menu element which expands out from the left.
+ */
 .meny {
+	display: none;
 	position: fixed;
 	height: 100%;
 	width: 300px;
@@ -99,6 +81,9 @@ body {
 	     -o-transform: rotateY( -30deg ) translateX( -97% );
 	        transform: rotateY( -30deg ) translateX( -97% );
 }
+	.meny-ready .meny {
+		display: block;
+	}
 	.meny-active .meny {
 		-webkit-transform: rotateY(0deg);
 		   -moz-transform: rotateY(0deg);
@@ -107,11 +92,15 @@ body {
 		        transform: rotateY(0deg);
 	}
 
+/** 
+ * Page contents which gets pushed aside while meny is active.
+ */
 .meny-contents {
 	background: #eee;
 	padding: 20px 40px;
 	width: 100%;
 	height: 100%;
+	overflow-y: auto;
 
 	-webkit-transform-origin: 0% 50%;
 	   -moz-transform-origin: 0% 50%;
@@ -127,7 +116,12 @@ body {
 		        transform: translateX( 300px ) rotateY( 15deg );
 	}
 
+/**
+ * A shadow-like element placed on top of the contents while 
+ * meny is active.
+ */
 .meny-contents .cover {
+	display: none;
 	position: absolute;
 	width: 100%;
 	height: 100%;
@@ -150,12 +144,17 @@ body {
 	     -o-transition: all .4s ease;
 	        transition: all .4s ease;
 }
+	.meny-ready .meny-contents .cover {
+		display: block;
+	}
 	.meny-active .meny-contents .cover {
-		z-index: 2;
 		visibility: visible;
 		opacity: 1;
 	}
 
+/**
+ * Graphic that highlights menu availability while inactive.
+ */
 .meny-arrow {
 	position: absolute;
 	top: 45%;
@@ -174,6 +173,7 @@ body {
 }
 	.meny-active .meny-arrow {
 		left: -40px;
+		opacity: 0;
 	}
 
 
@@ -208,6 +208,25 @@ body {
 /**
  * Styles that are more or less specific to the demo page:
  */
+
+a {
+	color: #c2575b;
+	text-decoration: none;
+
+	-webkit-transition: 0.15s color ease;
+	   -moz-transition: 0.15s color ease;
+	    -ms-transition: 0.15s color ease;
+	     -o-transition: 0.15s color ease;
+	        transition: 0.15s color ease;
+}
+	a:hover {
+		color: #f76f76;
+	}
+
+h1, 
+h2 {
+	font-size: 24px;
+}
 
 .meny {
 	background: #333;

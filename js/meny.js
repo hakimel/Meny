@@ -1,5 +1,5 @@
 /*!
- * meny 0.3
+ * meny 0.4
  * http://lab.hakim.se/meny
  * MIT licensed
  *
@@ -8,8 +8,17 @@
 (function(){
 
 	var meny = document.querySelector( '.meny' );
+	var menyWrapper = meny.parentNode;
 
-	var activateX = 40,
+	// Avoid throwing errors if the script runs on a page with 
+	// no .meny
+	if( !meny || !menyWrapper ) { return; }
+
+	// Add a class to identify the parent of the meny parts
+	menyWrapper.className += ' meny-wrapper';
+
+	var indentX = menyWrapper.offsetLeft,
+		activateX = 40,
 		deactivateX = meny.offsetWidth || 300,
 		touchStartX = null,
 		touchMoveX = null,
@@ -30,8 +39,10 @@
 
 	// Fall back to more basic CSS
 	if( !supports3DTransforms ) {
-		document.documentElement.className += 'meny-no-transform';
+		document.documentElement.className += ' meny-no-transform';
 	}
+
+	document.documentElement.className += ' meny-ready';
 
 	function onMouseDown( event ) {
 		isMouseDown = true;
@@ -41,7 +52,7 @@
 		// Prevent opening/closing when mouse is down since 
 		// the user may be selecting text
 		if( !isMouseDown ) {
-			var x = event.clientX;
+			var x = event.clientX - indentX;
 
 			if( x > deactivateX ) {
 				deactivate();
@@ -57,7 +68,7 @@
 	}
 
 	function onTouchStart( event ) {
-		touchStartX = event.touches[0].clientX;
+		touchStartX = event.touches[0].clientX - indentX;
 		touchMoveX = null;
 
 		if( isActive || touchStartX < activateX ) {
@@ -66,7 +77,7 @@
 	}
 
 	function onTouchMove( event ) {
-		touchMoveX = event.touches[0].clientX;
+		touchMoveX = event.touches[0].clientX - indentX;
 
 		if( isActive && touchMoveX < touchStartX - activateX ) {
 			deactivate();
