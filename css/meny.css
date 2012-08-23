@@ -1,5 +1,5 @@
 /*!
- * meny 0.4
+ * meny 0.5
  * http://lab.hakim.se/meny
  * MIT licensed
  *
@@ -31,11 +31,11 @@ body {
   * Element which wraps all of the other .meny parts 
   */
 .meny-wrapper {
-	-webkit-perspective: 800px;
-	   -moz-perspective: 800px;
-	    -ms-perspective: 800px;
-	     -o-perspective: 800px;
-	        perspective: 800px;
+	-webkit-perspective: 800;
+	   -moz-perspective: 800;
+	    -ms-perspective: 800;
+	     -o-perspective: 800;
+	        perspective: 800;
 
 	-webkit-perspective-origin: 0% 50%;
 	   -moz-perspective-origin: 0% 50%;
@@ -50,11 +50,11 @@ body {
 	   -moz-box-sizing: border-box;
 	        box-sizing: border-box;
 
-	-webkit-transition: -webkit-transform .4s ease;
-	   -moz-transition: -moz-transform .4s ease;
-	    -ms-transition: -ms-transform .4s ease;
-	     -o-transition: -o-transform .4s ease;
-	        transition: transform .4s ease;
+	-webkit-transition: -webkit-transform .5s ease;
+	   -moz-transition: -moz-transform .5s ease;
+	    -ms-transition: -ms-transform .5s ease;
+	     -o-transition: -o-transform .5s ease;
+	        transition: transform .5s ease;
 
 	-webkit-transform-origin: 0% 50%;
 	   -moz-transform-origin: 0% 50%;
@@ -85,11 +85,11 @@ body {
 		display: block;
 	}
 	.meny-active .meny {
-		-webkit-transform: rotateY(0deg);
-		   -moz-transform: rotateY(0deg);
-		    -ms-transform: rotateY(0deg);
-		     -o-transform: rotateY(0deg);
-		        transform: rotateY(0deg);
+		-webkit-transform: rotateY( 0deg );
+		   -moz-transform: rotateY( 0deg );
+		    -ms-transform: rotateY( 0deg );
+		     -o-transform: rotateY( 0deg );
+		        transform: rotateY( 0deg );
 	}
 
 /** 
@@ -132,11 +132,11 @@ body {
 	background: -ms-linear-gradient(left,  rgba(0,0,0,0.15) 0%,rgba(0,0,0,0.65) 100%);
 	background: linear-gradient(to right,  rgba(0,0,0,0.15) 0%,rgba(0,0,0,0.65) 100%);
 
-	-webkit-transition: all .4s ease;
-	   -moz-transition: all .4s ease;
-	    -ms-transition: all .4s ease;
-	     -o-transition: all .4s ease;
-	        transition: all .4s ease;
+	-webkit-transition: all .5s ease;
+	   -moz-transition: all .5s ease;
+	    -ms-transition: all .5s ease;
+	     -o-transition: all .5s ease;
+	        transition: all .5s ease;
 }
 	.meny-ready .meny-contents .cover {
 		display: block;
@@ -153,7 +153,7 @@ body {
 	position: absolute;
 	top: 45%;
 	left: 12px;
-	z-index: 2;
+	z-index: 10;
 	font-family: sans-serif;
 
 	font-size: 20px;
@@ -197,6 +197,91 @@ body {
 	.meny-no-transform.meny-active .meny-contents {
 		left: 300px;
 	}
+
+
+/**
+ * Styles for the folding effect.
+ */
+
+.meny-fold .meny,
+.meny-fold .meny-contents {
+	-webkit-transition: -webkit-transform 0.6s ease;
+	   -moz-transition: -moz-transform 0.6s ease;
+	    -ms-transition: -ms-transform 0.6s ease;
+	     -o-transition: -o-transform 0.6s ease;
+	        transition: transform 0.6s ease;
+}
+
+.meny-fold .meny-contents {
+	position: fixed;
+	z-index: 3;
+}
+
+.meny-fold .meny {
+	-webkit-transform-origin: 50% 50%;
+	   -moz-transform-origin: 50% 50%;
+	    -ms-transform-origin: 50% 50%;
+	     -o-transform-origin: 50% 50%;
+	        transform-origin: 50% 50%;
+}
+
+.meny-fold .meny.right .cover {
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	left: 0;
+	top: 0;
+	opacity: 1;
+
+	background: -moz-linear-gradient(left,  rgba(0,0,0,1) 0%, rgba(0,0,0,0) 90%);
+	background: -webkit-gradient(linear, left top, right top, color-stop(0%,rgba(0,0,0,1)), color-stop(90%,rgba(0,0,0,0)));
+	background: -webkit-linear-gradient(left,  rgba(0,0,0,1) 0%,rgba(0,0,0,0) 90%);
+	background: -o-linear-gradient(left,  rgba(0,0,0,1) 0%,rgba(0,0,0,0) 90%);
+	background: -ms-linear-gradient(left,  rgba(0,0,0,1) 0%,rgba(0,0,0,0) 90%);
+	background: linear-gradient(to right,  rgba(0,0,0,1) 0%,rgba(0,0,0,0) 90%);
+}
+	.meny-ready .meny-fold .meny.right .cover {
+		-webkit-transition: opacity 0.6s ease;
+		   -moz-transition: opacity 0.6s ease;
+		    -ms-transition: opacity 0.6s ease;
+		     -o-transition: opacity 0.6s ease;
+		        transition: opacity 0.6s ease;
+	}
+	.meny-active .meny-fold .meny.right .cover {
+		opacity: 0;
+	}
+
+.meny-fold .meny.left {
+	clip: rect( 0px, 150px, 10000px, 0px );
+
+	-webkit-transform: translate3d( -150px, 0, -300px ) rotateY( 90deg ) scale(1.25);
+	   -moz-transform: translate3d( -150px, 0, -300px ) rotateY( 90deg ) scale(1.25);
+	    -ms-transform: translate3d( -150px, 0, -300px ) rotateY( 90deg ) scale(1.25);
+	     -o-transform: translate3d( -150px, 0, -300px ) rotateY( 90deg ) scale(1.25);
+	        transform: translate3d( -150px, 0, -300px ) rotateY( 90deg ) scale(1.25);
+}
+	.meny-active .meny-fold .meny.left {
+		clip: initial;
+	}
+
+.meny-fold .meny.right {
+	clip: rect( 0px, 300px, 10000px, 150px );
+
+	-webkit-transform: translate3d( -150px, 0, -300px ) rotateY( -90deg ) scale(1.25);
+	   -moz-transform: translate3d( -150px, 0, -300px ) rotateY( -90deg ) scale(1.25);
+	    -ms-transform: translate3d( -150px, 0, -300px ) rotateY( -90deg ) scale(1.25);
+	     -o-transform: translate3d( -150px, 0, -300px ) rotateY( -90deg ) scale(1.25);
+	        transform: translate3d( -150px, 0, -300px ) rotateY( -90deg ) scale(1.25);
+}
+
+.meny-active .meny-fold .meny.left,
+.meny-active .meny-fold .meny.right {
+	-webkit-transform: rotateY( 0deg );
+	   -moz-transform: rotateY( 0deg );
+	    -ms-transform: rotateY( 0deg );
+	     -o-transform: rotateY( 0deg );
+	        transform: rotateY( 0deg );
+}
 
 
 /**

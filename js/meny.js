@@ -1,5 +1,5 @@
 /*!
- * meny 0.4
+ * meny 0.5
  * http://lab.hakim.se/meny
  * MIT licensed
  *
@@ -37,6 +37,9 @@
 	document.addEventListener( 'mousemove', onMouseMove, false );
 	document.addEventListener( 'touchstart', onTouchStart, false );
 	document.addEventListener( 'touchend', onTouchEnd, false );
+	window.addEventListener( 'hashchange', onHashChange, false );
+
+	onHashChange();
 
 	// Fall back to more basic CSS
 	if( !supports3DTransforms ) {
@@ -104,25 +107,50 @@
 				activate();
 			}
 		}
-		
+	}
+
+	function onHashChange( event ) {
+		if( window.location.hash.match( 'fold' ) && !document.body.className.match( 'meny-fold' ) ) {
+			addClass( document.body, 'meny-fold' );
+
+			var clone = document.createElement( 'div' );
+			clone.className = 'meny right';
+			clone.innerHTML = meny.innerHTML + '<div class="cover"></div>';
+			document.body.appendChild( clone );
+
+			addClass( meny, 'left' );
+		}
+		else {
+			removeClass( document.body, 'meny-fold' );
+
+			var clone = document.querySelector( '.meny.right' );
+
+			if( clone ) {
+				clone.parentNode.removeChild( clone );
+			}
+		}
 	}
 
 	function activate() {
 		if( isActive === false ) {
 			isActive = true;
-
-			// Add the meny-active class and clean up whitespace
-			document.documentElement.className = document.documentElement.className.replace( /\s+$/gi, '' ) + ' meny-active';
+			addClass( document.documentElement, 'meny-active' );
 		}
 	}
 
 	function deactivate() {
 		if( isActive === true ) {
 			isActive = false;
-
-			// Remove the meny-active class
-			document.documentElement.className = document.documentElement.className.replace( 'meny-active', '' );
+			removeClass( document.documentElement, 'meny-active' );
 		}
+	}
+
+	function addClass( element, name ) {
+		element.className = element.className.replace( /\s+$/gi, '' ) + ' ' + name;
+	}
+
+	function removeClass( element, name ) {
+		element.className = element.className.replace( name, '' );
 	}
 
 })();
