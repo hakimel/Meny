@@ -31,11 +31,11 @@ body {
   * Element which wraps all of the other .meny parts 
   */
 .meny-wrapper {
-	-webkit-perspective: 800;
-	   -moz-perspective: 800;
-	    -ms-perspective: 800;
-	     -o-perspective: 800;
-	        perspective: 800;
+	-webkit-perspective: 800px;
+	   -moz-perspective: 800px;
+	    -ms-perspective: 800px;
+	     -o-perspective: 800px;
+	        perspective: 800px;
 
 	-webkit-perspective-origin: 0% 50%;
 	   -moz-perspective-origin: 0% 50%;
