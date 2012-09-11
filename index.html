@@ -40,17 +40,21 @@
 			<article>
 				<h1>Meny</h1>
 				<p>
-					A three dimensional and space efficient menu concept.
+					A three dimensional and space efficient menu.
 				</p>
 				<p>
-					Move your mouse to the left edge of this page &mdash; or swipe in from the left edge if you're on a touch device &mdash; to expand the menu.
-					Pass in a URL to test it with any page, like so: <a href="http://lab.hakim.se/meny/?http://hakim.se">lab.hakim.se/meny/?http://hakim.se.</a> 
+					Move your mouse towards the arrow &mdash; or swipe in from the arrow if you're on a touch device &mdash; to open.
+					Test it with any page by appending a URL, like so: <a href="http://lab.hakim.se/meny/?u=http://hakim.se">lab.hakim.se/meny/?u=http://hakim.se.</a> 
 				</p>
 				<p>
-					There's a special folding variant of the transition. <a href="#fold">Activate the #fold</a> or <a href="#">reset</a>.
+					Meny can be positioned on any side of the screen: <br>
+					 <a href="http://lab.hakim.se/meny/?p=top">top</a> 
+					 - <a href="http://lab.hakim.se/meny/?p=right">right</a> 
+					 - <a href="http://lab.hakim.se/meny/?p=bottom">bottom</a>
+					 - <a href="http://lab.hakim.se/meny/?p=left">left</a> 
 				</p>
 				<p>
-					CSS 3D transforms are used for the transition effect and JavaScript is used to track mouse/touch movement.
+					Instructions and download at <a href="http://github.com/hakimel/meny">github.com/hakimel/meny</a>.
 				</p>
 				<p>
 					The name, <em>Meny</em>, is swedish.
@@ -69,14 +73,23 @@
 			<a href="https://github.com/hakimel/meny"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://a248.e.akamai.net/camo.github.com/e6bef7a091f5f3138b8cd40bc3e114258dd68ddf/687474703a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f7265645f6161303030302e706e67" alt="Fork me on GitHub"></a>
 		</div>
 
-		<script src="js/meny.js"></script>
+		<script src="js/meny.min.js"></script>
 		<script>
 			// Create an instance of Meny
 			var meny = Meny.create({
+				// The element that will be animated in from off screen
 				menuElement: document.querySelector( '.meny' ),
+
+				// The contents that gets pushed aside while Meny is active
 				contentsElement: document.querySelector( '.contents' ),
-				position: 'bottom',
+
+				// The alignment of the menu (top/right/bottom/left)
+				position: Meny.getQuery().p || 'left',
+
+				// The height of the menu (when using top/bottom position)
 				height: 200,
+
+				// The width of the menu (when using left/right position)
 				width: 260
 			});
 
@@ -84,12 +97,14 @@
 			// meny.activate();
 			// meny.deactivate();
 			// meny.isActive();
+			
+
 
 			// Embed an iframe if a URL is passed in
-			if( window.location.search.length && window.location.search.match( /^\?(http|www)/gi ) ) {
+			if( Meny.getQuery().u && Meny.getQuery().u.match( /^http/gi ) ) {
 				var contents = document.querySelector( '.contents' );
 				contents.style.padding = '0px';
-				contents.innerHTML = '<div class="cover"></div><iframe src="'+ window.location.search.slice( 1 ) +'" style="width: 100%; height: 100%; border: 0; position: absolute;"></iframe>';
+				contents.innerHTML = '<div class="cover"></div><iframe src="'+ Meny.getQuery().u +'" style="width: 100%; height: 100%; border: 0; position: absolute;"></iframe>';
 			}
 		</script>
 

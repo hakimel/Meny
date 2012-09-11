@@ -1,4 +1,14 @@
 
+/**
+ * The CSS in this file is for styling the demo page, 
+ * Meny's critical styles (such as transforms) are applied
+ * via JavaScript.
+ *
+ * See the documentation here: https://github.com/hakimel/meny#meny
+ *
+ * @author Hakim El Hattab | http://hakim.se
+ */
+
 * {
 	margin: 0;
 	padding: 0;
@@ -41,7 +51,7 @@ h2 {
 
 .meny {
 	display: none;
-	padding: 10px;
+	padding: 20px;
 	overflow: auto;
 	background: #333;
 	color: #eee;
@@ -84,25 +94,25 @@ h2 {
 	.meny-left .meny-arrow {
 		left: 14px;
 		top: 50%;
-		margin-top: -8px;
+		margin-top: -16px;
 		border-left: 16px solid #333;
 	}
 	.meny-right .meny-arrow {
 		right: 14px;
 		top: 50%;
-		margin-top: -8px;
+		margin-top: -16px;
 		border-right: 16px solid #333;
 	}
 	.meny-top .meny-arrow {
 		left: 50%;
 		top: 14px;
-		margin-left: -8px;
+		margin-left: -16px;
 		border-top: 16px solid #333;
 	}
 	.meny-bottom .meny-arrow {
 		left: 50%;
 		bottom: 14px;
-		margin-left: -8px;
+		margin-left: -16px;
 		border-bottom: 16px solid #333;
 	}
 	.meny-active .meny-arrow {

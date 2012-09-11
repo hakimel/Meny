@@ -3,9 +3,10 @@
  * http://lab.hakim.se/meny
  * MIT licensed
  *
- * Created by Hakim El Hattab, http://hakim.se
+ * Created by Hakim El Hattab, @hakimel, http://hakim.se
  */
 var Meny = {
+	// Creates a new instance of Meny
 	create: function( options ) {
 		return (function(){
 
@@ -74,6 +75,7 @@ var Meny = {
 				bindEvents();
 			}
 			else {
+				// JS animation fallback will be added soon
 				dom.menuElement.style.display = 'block';
 				console.log( 'Your browser doesn\'t support 3D transforms, fallback coming soon.' );
 				return false;
@@ -208,8 +210,8 @@ var Meny = {
 					dom.cover.style.visibility = 'visible';
 					dom.cover.style.opacity = 1;
 
-					dom.menuElement.style[ prefix( 'transform' ) ] = menuTransformOpened;
 					dom.contentsElement.style[ prefix( 'transform' ) ] = contentsTransformOpened;
+					dom.menuElement.style[ prefix( 'transform' ) ] = menuTransformOpened;
 				}
 			}
 
@@ -222,8 +224,8 @@ var Meny = {
 					dom.cover.style.visibility = 'hidden';
 					dom.cover.style.opacity = 0;
 
-					dom.menuElement.style[ prefix( 'transform' ) ] = menuTransformClosed;
 					dom.contentsElement.style[ prefix( 'transform' ) ] = contentsTransformClosed;
+					dom.menuElement.style[ prefix( 'transform' ) ] = menuTransformClosed;
 				}
 			}
 
@@ -429,5 +431,16 @@ var Meny = {
 			};
 
 		})();
+	},
+
+	// Helper method, retrieves query string as a key/value hash
+	getQuery: function() {
+		var query = {};
+
+		location.search.replace( /[A-Z0-9]+?=([\w|:|\/\.]*)/gi, function(a) {
+			query[ a.split( '=' ).shift() ] = a.split( '=' ).pop();
+		} );
+
+		return query;
 	}
 };
