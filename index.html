@@ -13,7 +13,7 @@
 		
 		<link href='http://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
 		
-		<link rel="stylesheet" href="css/meny.css">
+		<link rel="stylesheet" href="css/demo.css">
 	</head>
 	
 	<body>
@@ -40,8 +40,6 @@
 
 		<!-- Contents that will be rotated when the meny is expanded -->
 		<div class="meny-contents">
-			<div class="cover"></div>
-
 			<article>
 				<h1>Meny</h1>
 				<p>
@@ -70,11 +68,16 @@
 				<iframe id="facebook-button" src="http://www.facebook.com/plugins/like.php?href=http%3A%2F%2Flab.hakim.se%2Fmeny%2F&layout=button_count&show_faces=false&width=83&action=like&font=arial&colorscheme=light&height=21" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:85px; height:24px; position: relative; top: 4px;" allowTransparency="true"></iframe> 
 			</div>
 
-			<a class="fork-reveal" href="https://github.com/hakimel/meny"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://a248.e.akamai.net/camo.github.com/e6bef7a091f5f3138b8cd40bc3e114258dd68ddf/687474703a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f7265645f6161303030302e706e67" alt="Fork me on GitHub"></a>
+			<a href="https://github.com/hakimel/meny"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://a248.e.akamai.net/camo.github.com/e6bef7a091f5f3138b8cd40bc3e114258dd68ddf/687474703a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f7265645f6161303030302e706e67" alt="Fork me on GitHub"></a>
 		</div>
 
 		<script src="js/meny.js"></script>
 		<script>
+			var meny = Meny.create({
+				menuElement: document.querySelector( '.meny' ),
+				contentsElement: document.querySelector( '.meny-contents' ),
+				position: 'bottom'
+			});
 			// Embed an iframe if a URL is passed in
 			if( window.location.search.length && window.location.search.match( /^\?(http|www)/gi ) ) {
 				var contents = document.querySelector( '.meny-contents' );

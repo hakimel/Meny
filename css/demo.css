@@ -1,0 +1,142 @@
+/*!
+ * meny 0.5
+ * http://lab.hakim.se/meny
+ * MIT licensed
+ *
+ * Created by Hakim El Hattab, http://hakim.se
+ */
+
+* {
+	margin: 0;
+	padding: 0;
+}
+
+html, 
+body {
+	height: 100%;
+	overflow: hidden;
+}
+
+body {
+	background-color: #222;
+	background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAAECAYAAACp8Z5+AAAAGklEQVQIW2NkYGD4D8SMQAwGcAY2AbBKDBUAVuYCBQPd34sAAAAASUVORK5CYII=);
+	background-repeat: repeat;
+
+	font-family: 'Lato', Helvetica, sans-serif;
+	font-size: 16px;
+	color: #222;
+}
+
+/** 
+ * The menu element which expands out from the left.
+ */
+.meny {
+	position: fixed;
+	height: 100%;
+	width: 300px;
+	z-index: 1;
+	margin: 0px;
+	padding: 20px;
+}
+
+/** 
+ * Page contents which gets pushed aside while meny is active.
+ */
+.meny-contents {
+	background: #eee;
+	padding: 20px 40px;
+	width: 100%;
+	height: 100%;
+	overflow-y: auto;
+
+	-webkit-box-sizing: border-box;
+	   -moz-box-sizing: border-box;
+	        box-sizing: border-box;
+}
+
+/**
+ * Graphic that highlights menu availability while inactive.
+ */
+.meny-arrow {
+	position: absolute;
+	top: 45%;
+	left: 12px;
+	z-index: 10;
+	font-family: sans-serif;
+
+	font-size: 20px;
+	color: #333;
+}
+	.meny-active .meny-arrow {
+		left: -40px;
+		opacity: 0;
+	}
+
+
+/**
+ * Styles that are more or less specific to the demo page:
+ */
+
+a {
+	color: #c2575b;
+	text-decoration: none;
+
+	-webkit-transition: 0.15s color ease;
+	   -moz-transition: 0.15s color ease;
+	    -ms-transition: 0.15s color ease;
+	     -o-transition: 0.15s color ease;
+	        transition: 0.15s color ease;
+}
+	a:hover {
+		color: #f76f76;
+	}
+
+h1, 
+h2 {
+	font-size: 24px;
+}
+
+.meny {
+	background: #333;
+	color: #eee;
+}
+	.meny ul {
+		margin-top: 10px;
+	}
+		.meny ul li {
+			list-style: none;
+			font-size: 20px;
+			padding: 3px 10px;
+		}
+			.meny ul li:before {
+				content: '-';
+				margin-right: 5px;
+				color: rgba( 255, 255, 255, 0.2 );
+			}
+
+.meny-contents>article {
+	max-width: 400px;
+}
+.meny-contents p {
+	margin: 10px 0 10px 0;
+	font-size: 16px;
+	line-height: 1.32;
+}
+
+.meny-contents small {
+	display: block;
+	margin-top: 10px;
+	padding-top: 10px;
+	color: #333;
+	font-size: 0.85em;
+	border-top: 1px dashed #ccc;
+
+	-webkit-text-size-adjust: none;
+}
+
+.meny-contents .sharing {
+	position: absolute;
+	bottom: 20px;
+}
+
+
