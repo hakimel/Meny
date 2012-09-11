@@ -27,6 +27,12 @@ var Meny = {
 				POSITION_BOTTOM = 'bottom',
 				POSITION_LEFT = 'left';
 
+			var supports3DTransforms =  'WebkitPerspective' in document.body.style ||
+										'MozPerspective' in document.body.style ||
+										'msPerspective' in document.body.style ||
+										'OPerspective' in document.body.style ||
+										'perspective' in document.body.style;
+
 			// Extend our config defaults with the options
 			var config = {
 				width: 300,
@@ -58,13 +64,20 @@ var Meny = {
 
 			extend( config, options );
 
-			setupTransforms();
-			setupWrapper();
-			setupCover();
-			setupMenu();
-			setupContents();
+			if( supports3DTransforms ) {
+				setupTransforms();
+				setupWrapper();
+				setupCover();
+				setupMenu();
+				setupContents();
 
-			bindEvents();
+				bindEvents();
+			}
+			else {
+				dom.menuElement.style.display = 'block';
+				console.log( 'Your browser doesn\'t support 3D transforms, fallback coming soon.' );
+				return false;
+			}
 
 			/**
 			 * Prepares the transforms for the current positioning 
@@ -77,25 +90,25 @@ var Meny = {
 				switch( config.position ) {
 					case POSITION_TOP:
 						transformOrigin = '50% 0';
-						menuTransformClosed = 'rotateX( 30deg ) translateY( -97% )';
+						menuTransformClosed = 'rotateX( 30deg ) translateY( -100% ) translateY( 8px )';
 						contentsTransformOpened = 'translateY( '+ config.height +'px ) rotateX( -15deg )';
 						break;
 
 					case POSITION_RIGHT:
 						transformOrigin = '100% 50%';
-						menuTransformClosed = 'rotateY( 30deg ) translateX( 97% )';
+						menuTransformClosed = 'rotateY( 30deg ) translateX( 100% ) translateX( -8px )';
 						contentsTransformOpened = 'translateX( -'+ config.width +'px ) rotateY( -15deg )';
 						break;
 
 					case POSITION_BOTTOM:
 						transformOrigin = '50% 100%';
-						menuTransformClosed = 'rotateX( -30deg ) translateY( 97% )';
+						menuTransformClosed = 'rotateX( -30deg ) translateY( 100% ) translateY( -8px )';
 						contentsTransformOpened = 'translateY( -'+ config.height +'px ) rotateX( 15deg )';
 						break;
 
 					default:
 						transformOrigin = '0 50%';
-						menuTransformClosed = 'rotateY( -30deg ) translateX( -97% )';
+						menuTransformClosed = 'rotateY( -30deg ) translateX( -100% ) translateX( 8px )';
 						contentsTransformOpened = 'translateX( '+ config.width +'px ) rotateY( 15deg )';
 						break;
 				}
@@ -105,6 +118,8 @@ var Meny = {
 			 * The wrapper element holds the menu and contents.
 			 */
 			function setupWrapper() {
+				addClass( dom.wrapper, 'meny-' + config.position );
+
 				dom.wrapper.style[ prefix( 'perspective' ) ] = '800px';
 				dom.wrapper.style[ prefix( 'perspectiveOrigin' ) ] = transformOrigin;
 			}
@@ -160,10 +175,9 @@ var Meny = {
 				dom.menuElement.style.display = 'block';
 				dom.menuElement.style.position = 'fixed';
 				dom.menuElement.style.zIndex = 1;
-				dom.menuElement.style[ prefix( 'boxSizing' ) ] = 'border-box';
 				dom.menuElement.style[ prefix( 'transform' ) ] = menuTransformClosed;
 				dom.menuElement.style[ prefix( 'transformOrigin' ) ] = transformOrigin;
-				dom.menuElement.style[ prefix( 'transition' ) ] = '-webkit-transform .5s ease';
+				dom.menuElement.style[ prefix( 'transition' ) ] = 'all .5s ease';
 			}
 
 			/**
@@ -173,7 +187,7 @@ var Meny = {
 			function setupContents() {
 				dom.contentsElement.style[ prefix( 'transform' ) ] = contentsTransformClosed;
 				dom.contentsElement.style[ prefix( 'transformOrigin' ) ] = transformOrigin;
-				dom.contentsElement.style[ prefix( 'transition' ) ] = '-webkit-transform .5s ease';
+				dom.contentsElement.style[ prefix( 'transition' ) ] = 'all .5s ease';
 			}
 
 			function bindEvents() {

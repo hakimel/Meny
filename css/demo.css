@@ -20,24 +20,6 @@ body {
 	color: #222;
 }
 
-/**
- * Graphic that highlights menu availability while inactive.
- */
-.meny-arrow {
-	position: absolute;
-	top: 45%;
-	left: 12px;
-	z-index: 1;
-	font-family: sans-serif;
-
-	font-size: 20px;
-	color: #333;
-}
-	.meny-active .meny-arrow {
-		left: -40px;
-		opacity: 0;
-	}
-
 a {
 	color: #c2575b;
 	text-decoration: none;
@@ -59,10 +41,14 @@ h2 {
 
 .meny {
 	display: none;
+	padding: 10px;
+	overflow: auto;
 	background: #333;
 	color: #eee;
-	overflow: auto;
-	padding: 10px;
+
+	-webkit-box-sizing: border-box;
+	   -moz-box-sizing: border-box;
+	        box-sizing: border-box;
 }
 	.meny ul {
 		margin-top: 10px;
@@ -80,6 +66,58 @@ h2 {
 				color: rgba( 255, 255, 255, 0.2 );
 			}
 
+/**
+ * Hint graphic that appears while menu is inactive
+ */
+.meny-arrow {
+	position: absolute;
+	z-index: 10;
+
+	border: 10px solid transparent;
+
+	-webkit-transition: opacity 0.4s ease 0.4s; 
+	   -moz-transition: opacity 0.4s ease 0.4s; 
+	    -ms-transition: opacity 0.4s ease 0.4s; 
+	     -o-transition: opacity 0.4s ease 0.4s; 
+	        transition: opacity 0.4s ease 0.4s;
+}
+	.meny-left .meny-arrow {
+		left: 14px;
+		top: 50%;
+		margin-top: -8px;
+		border-left: 16px solid #333;
+	}
+	.meny-right .meny-arrow {
+		right: 14px;
+		top: 50%;
+		margin-top: -8px;
+		border-right: 16px solid #333;
+	}
+	.meny-top .meny-arrow {
+		left: 50%;
+		top: 14px;
+		margin-left: -8px;
+		border-top: 16px solid #333;
+	}
+	.meny-bottom .meny-arrow {
+		left: 50%;
+		bottom: 14px;
+		margin-left: -8px;
+		border-bottom: 16px solid #333;
+	}
+	.meny-active .meny-arrow {
+		opacity: 0;
+
+		-webkit-transition: opacity 0.2s ease; 
+		   -moz-transition: opacity 0.2s ease; 
+		    -ms-transition: opacity 0.2s ease; 
+		     -o-transition: opacity 0.2s ease; 
+		        transition: opacity 0.2s ease;
+	}
+
+/**
+ * Main contents area
+ */
 .contents {
 	background: #eee;
 	padding: 20px 40px;
