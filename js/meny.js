@@ -146,6 +146,9 @@ var Meny = {
 				dom.cover.style.visibility = 'hidden';
 				dom.cover.style.zIndex = 1000;
 				dom.cover.style.background = 'rgba( 0, 0, 0, 0.4 )';
+				dom.cover.style.background = '-ms-linear-gradient('+ config.position +',  rgba(0,0,0,0.20) 0%,rgba(0,0,0,0.65) 100%)';
+				dom.cover.style.background = '-moz-linear-gradient('+ config.position +',  rgba(0,0,0,0.20) 0%,rgba(0,0,0,0.65) 100%)';
+				dom.cover.style.background = '-webkit-linear-gradient('+ config.position +',  rgba(0,0,0,0.20) 0%,rgba(0,0,0,0.65) 100%)';
 				dom.cover.style.opacity = 0;
 				dom.cover.style[ prefix( 'transition' ) ] = 'all .5s ease';
 				dom.contentsElement.appendChild( dom.cover );
