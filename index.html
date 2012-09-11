@@ -90,7 +90,10 @@
 				height: 200,
 
 				// The width of the menu (when using left/right position)
-				width: 260
+				width: 260,
+
+				// Distance from mouse (in pixels) when menu should open
+				activateThreshold: 40
 			});
 
 			// API Methods:
@@ -98,7 +101,6 @@
 			// meny.deactivate();
 			// meny.isActive();
 			
-
 
 			// Embed an iframe if a URL is passed in
 			if( Meny.getQuery().u && Meny.getQuery().u.match( /^http/gi ) ) {

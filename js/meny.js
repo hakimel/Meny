@@ -57,9 +57,10 @@ var Meny = {
 				isActive = false,
 				isMouseDown = false;
 
-			var transformOrigin,
+			var menuTransformOrigin,
 				menuTransformClosed,
 				menuTransformOpened,
+				contentsTransformOrigin,
 				contentsTransformClosed,
 				contentsTransformOpened;
 
@@ -91,26 +92,30 @@ var Meny = {
 
 				switch( config.position ) {
 					case POSITION_TOP:
-						transformOrigin = '50% 0';
-						menuTransformClosed = 'rotateX( 30deg ) translateY( -100% ) translateY( 8px )';
+						menuTransformOrigin = '50% 0%';
+						menuTransformClosed = 'rotateX( 30deg ) translateY( -100% ) translateY( 6px )';
+						contentsTransformOrigin = '50% 0';
 						contentsTransformOpened = 'translateY( '+ config.height +'px ) rotateX( -15deg )';
 						break;
 
 					case POSITION_RIGHT:
-						transformOrigin = '100% 50%';
-						menuTransformClosed = 'rotateY( 30deg ) translateX( 100% ) translateX( -8px )';
+						menuTransformOrigin = '100% 50%';
+						menuTransformClosed = 'rotateY( 30deg ) translateX( 100% ) translateX( -2px ) scale( 1.01 )';
+						contentsTransformOrigin = '100% 50%';
 						contentsTransformOpened = 'translateX( -'+ config.width +'px ) rotateY( -15deg )';
 						break;
 
 					case POSITION_BOTTOM:
-						transformOrigin = '50% 100%';
-						menuTransformClosed = 'rotateX( -30deg ) translateY( 100% ) translateY( -8px )';
+						menuTransformOrigin = '50% 100%';
+						menuTransformClosed = 'rotateX( -30deg ) translateY( 100% ) translateY( -6px )';
+						contentsTransformOrigin = '50% 100%';
 						contentsTransformOpened = 'translateY( -'+ config.height +'px ) rotateX( 15deg )';
 						break;
 
 					default:
-						transformOrigin = '0 50%';
-						menuTransformClosed = 'rotateY( -30deg ) translateX( -100% ) translateX( 8px )';
+						menuTransformOrigin = '100% 50%';
+						menuTransformClosed = 'translateX( -100% ) translateX( 6px ) scale( 1.01 ) rotateY( -30deg )';
+						contentsTransformOrigin = '0 50%';
 						contentsTransformOpened = 'translateX( '+ config.width +'px ) rotateY( 15deg )';
 						break;
 				}
@@ -123,7 +128,7 @@ var Meny = {
 				addClass( dom.wrapper, 'meny-' + config.position );
 
 				dom.wrapper.style[ prefix( 'perspective' ) ] = '800px';
-				dom.wrapper.style[ prefix( 'perspectiveOrigin' ) ] = transformOrigin;
+				dom.wrapper.style[ prefix( 'perspectiveOrigin' ) ] = contentsTransformOrigin;
 			}
 
 			/**
@@ -178,7 +183,7 @@ var Meny = {
 				dom.menuElement.style.position = 'fixed';
 				dom.menuElement.style.zIndex = 1;
 				dom.menuElement.style[ prefix( 'transform' ) ] = menuTransformClosed;
-				dom.menuElement.style[ prefix( 'transformOrigin' ) ] = transformOrigin;
+				dom.menuElement.style[ prefix( 'transformOrigin' ) ] = menuTransformOrigin;
 				dom.menuElement.style[ prefix( 'transition' ) ] = 'all .5s ease';
 			}
 
@@ -188,7 +193,7 @@ var Meny = {
 			 */
 			function setupContents() {
 				dom.contentsElement.style[ prefix( 'transform' ) ] = contentsTransformClosed;
-				dom.contentsElement.style[ prefix( 'transformOrigin' ) ] = transformOrigin;
+				dom.contentsElement.style[ prefix( 'transformOrigin' ) ] = contentsTransformOrigin;
 				dom.contentsElement.style[ prefix( 'transition' ) ] = 'all .5s ease';
 			}
 
