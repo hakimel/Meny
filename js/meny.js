@@ -67,33 +67,6 @@ var Meny = {
 			bindEvents();
 
 			/**
-			 * Extend object a with the properties of object b. 
-			 * If there's a conflict, object b takes precedence.
-			 */
-			function extend( a, b ) {
-				for( var i in b ) {
-					a[ i ] = b[ i ];
-				}
-			}
-
-			/**
-			 * Prefixes a CSS property with the correct vendor.
-			 */
-			function prefix( property, el ) {
-				var propertyUC = property.slice( 0, 1 ).toUpperCase() + property.slice( 1 );
-
-				for( var i = 0, len = VENDORS.length; i < len; i++ ) {
-					var vendor = VENDORS[i];
-
-					if( typeof ( el || document.body ).style[ vendor + propertyUC ] !== 'undefined' ) {
-						return vendor + propertyUC;
-					}
-				}
-
-				return property;
-			}
-
-			/**
 			 * Prepares the transforms for the current positioning 
 			 * settings.
 			 */
@@ -105,25 +78,25 @@ var Meny = {
 					case POSITION_TOP:
 						transformOrigin = '50% 0';
 						menuTransformClosed = 'rotateX( 30deg ) translateY( -97% )';
-						contentsTransformOpened = 'translateY( 300px ) rotateX( -15deg )';
+						contentsTransformOpened = 'translateY( '+ config.height +'px ) rotateX( -15deg )';
 						break;
 
 					case POSITION_RIGHT:
 						transformOrigin = '100% 50%';
 						menuTransformClosed = 'rotateY( 30deg ) translateX( 97% )';
-						contentsTransformOpened = 'translateX( -300px ) rotateY( -15deg )';
+						contentsTransformOpened = 'translateX( -'+ config.width +'px ) rotateY( -15deg )';
 						break;
 
 					case POSITION_BOTTOM:
 						transformOrigin = '50% 100%';
 						menuTransformClosed = 'rotateX( -30deg ) translateY( 97% )';
-						contentsTransformOpened = 'translateY( -300px ) rotateX( 15deg )';
+						contentsTransformOpened = 'translateY( -'+ config.height +'px ) rotateX( 15deg )';
 						break;
 
 					default:
 						transformOrigin = '0 50%';
 						menuTransformClosed = 'rotateY( -30deg ) translateX( -97% )';
-						contentsTransformOpened = 'translateX( 300px ) rotateY( 15deg )';
+						contentsTransformOpened = 'translateX( '+ config.width +'px ) rotateY( 15deg )';
 						break;
 				}
 			}
@@ -212,22 +185,75 @@ var Meny = {
 			}
 
 			function activate() {
-				isActive = true;
+				if( !isActive ) {
+					isActive = true;
 
-				dom.menuElement.style[ prefix( 'transform' ) ] = menuTransformOpened;
-				dom.contentsElement.style[ prefix( 'transform' ) ] = contentsTransformOpened;
-				dom.cover.style.visibility = 'visible';
-				dom.cover.style.opacity = 1;
+					addClass( dom.wrapper, 'meny-active' );
+
+					dom.cover.style.height = dom.contentsElement.scrollHeight + 'px';
+					dom.cover.style.visibility = 'visible';
+					dom.cover.style.opacity = 1;
+
+					dom.menuElement.style[ prefix( 'transform' ) ] = menuTransformOpened;
+					dom.contentsElement.style[ prefix( 'transform' ) ] = contentsTransformOpened;
+				}
 			}
 
 			function deactivate() {
-				isActive = false;
+				if( isActive ) {
+					isActive = false;
 
-				dom.menuElement.style[ prefix( 'transform' ) ] = menuTransformClosed;
-				dom.contentsElement.style[ prefix( 'transform' ) ] = contentsTransformClosed;
-				dom.cover.style.visibility = 'hidden';
-				dom.cover.style.opacity = 0;
+					removeClass( dom.wrapper, 'meny-active' );
+
+					dom.cover.style.visibility = 'hidden';
+					dom.cover.style.opacity = 0;
+
+					dom.menuElement.style[ prefix( 'transform' ) ] = menuTransformClosed;
+					dom.contentsElement.style[ prefix( 'transform' ) ] = contentsTransformClosed;
+				}
 			}
+
+
+			/// UTIL: //////////////////////////////////
+			
+
+			/**
+			 * Extend object a with the properties of object b. 
+			 * If there's a conflict, object b takes precedence.
+			 */
+			function extend( a, b ) {
+				for( var i in b ) {
+					a[ i ] = b[ i ];
+				}
+			}
+
+			/**
+			 * Prefixes a CSS property with the correct vendor.
+			 */
+			function prefix( property, el ) {
+				var propertyUC = property.slice( 0, 1 ).toUpperCase() + property.slice( 1 );
+
+				for( var i = 0, len = VENDORS.length; i < len; i++ ) {
+					var vendor = VENDORS[i];
+
+					if( typeof ( el || document.body ).style[ vendor + propertyUC ] !== 'undefined' ) {
+						return vendor + propertyUC;
+					}
+				}
+
+				return property;
+			}
+
+			function addClass( element, name ) {
+				element.className = element.className.replace( /\s+$/gi, '' ) + ' ' + name;
+			}
+
+			function removeClass( element, name ) {
+				element.className = element.className.replace( name, '' );
+			}
+
+
+			/// INPUT: /////////////////////////////////
 
 			function onMouseDown( event ) {
 				isMouseDown = true;
@@ -376,7 +402,9 @@ var Meny = {
 				}
 			}
 
-			// Return the API
+			
+			/// API: ///////////////////////////////////
+			
 			return {
 				activate: activate,
 				deactivate: deactivate,
@@ -385,156 +413,6 @@ var Meny = {
 					return isActive;
 				}
 			};
-
-			/*
-
-			var meny = document.querySelector( '.meny' );
-
-			// Avoid throwing errors if the script runs on a page with 
-			// no .meny
-			if( !meny || !meny.parentNode ) { return; }
-
-			var menyWrapper = meny.parentNode;
-			
-			// Add a class to identify the parent of the meny parts
-			menyWrapper.className += ' meny-wrapper';
-
-			var indentX = menyWrapper.offsetLeft,
-				activateX = 40,
-				deactivateX = meny.offsetWidth || 300,
-				touchStartX = null,
-				touchMoveX = null,
-				isActive = false,
-				isMouseDown = false;
-
-			var supports3DTransforms = 'WebkitPerspective' in document.body.style ||
-										'MozPerspective' in document.body.style ||
-										'msPerspective' in document.body.style ||
-										'OPerspective' in document.body.style ||
-										'perspective' in document.body.style;
-
-			document.addEventListener( 'mousedown', onMouseDown, false );
-			document.addEventListener( 'mouseup', onMouseUp, false );
-			document.addEventListener( 'mousemove', onMouseMove, false );
-			document.addEventListener( 'touchstart', onTouchStart, false );
-			document.addEventListener( 'touchend', onTouchEnd, false );
-			window.addEventListener( 'hashchange', onHashChange, false );
-
-			onHashChange();
-
-			// Fall back to more basic CSS
-			if( !supports3DTransforms ) {
-				document.documentElement.className += ' meny-no-transform';
-			}
-
-			document.documentElement.className += ' meny-ready';
-
-			function onMouseDown( event ) {
-				isMouseDown = true;
-			}
-
-			function onMouseMove( event ) {
-				// Prevent opening/closing when mouse is down since 
-				// the user may be selecting text
-				if( !isMouseDown ) {
-					var x = event.clientX - indentX;
-
-					if( x > deactivateX ) {
-						deactivate();
-					}
-					else if( x < activateX ) {
-						activate();
-					}
-				}
-			}
-
-			function onMouseUp( event ) {
-				isMouseDown = false;
-			}
-
-			function onTouchStart( event ) {
-				touchStartX = event.touches[0].clientX - indentX;
-				touchMoveX = null;
-
-				if( isActive || touchStartX < activateX ) {
-					document.addEventListener( 'touchmove', onTouchMove, false );
-				}
-			}
-
-			function onTouchMove( event ) {
-				touchMoveX = event.touches[0].clientX - indentX;
-
-				if( isActive && touchMoveX < touchStartX - activateX ) {
-					deactivate();
-					event.preventDefault();
-				}
-				else if( touchStartX < activateX && touchMoveX > touchStartX + activateX ) {
-					activate();
-					event.preventDefault();
-				}
-			}
-
-			function onTouchEnd( event ) {
-				document.addEventListener( 'touchmove', onTouchMove, false );
-
-				// If there was no movement this was a tap
-				if( touchMoveX === null ) {
-					// Hide the menu when tapping on the content area
-					if( touchStartX > deactivateX ) {
-						deactivate();
-					}
-					// Show the meny when tapping on the left edge
-					else if( touchStartX < activateX * 2 ) {
-						activate();
-					}
-				}
-			}
-
-			function onHashChange( event ) {
-				if( window.location.hash.match( 'fold' ) && !document.body.className.match( 'meny-fold' ) ) {
-					addClass( document.body, 'meny-fold' );
-
-					var clone = document.createElement( 'div' );
-					clone.className = 'meny right';
-					clone.innerHTML = meny.innerHTML + '<div class="cover"></div>';
-					document.body.appendChild( clone );
-
-					addClass( meny, 'left' );
-				}
-				else {
-					removeClass( document.body, 'meny-fold' );
-
-					var clone = document.querySelector( '.meny.right' );
-
-					if( clone ) {
-						clone.parentNode.removeChild( clone );
-					}
-				}
-			}
-
-			function activate() {
-				if( isActive === false ) {
-					isActive = true;
-					addClass( document.documentElement, 'meny-active' );
-				}
-			}
-
-			function deactivate() {
-				if( isActive === true ) {
-					isActive = false;
-					removeClass( document.documentElement, 'meny-active' );
-				}
-			}
-
-			function addClass( element, name ) {
-				element.className = element.className.replace( /\s+$/gi, '' ) + ' ' + name;
-			}
-
-			function removeClass( element, name ) {
-				element.className = element.className.replace( name, '' );
-			}
-
-			*/
 
 		})();
 	}

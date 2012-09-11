@@ -4,7 +4,7 @@
 	<head>
 		<meta charset="utf-8">
 		
-		<title>Meny - CSS 3D fold-in menu concept</title>
+		<title>Meny - A three dimensional and space efficient menu concept</title>
 
 		<meta name="description" content="A three dimensional and space efficient menu concept created with JavaScript and CSS 3.">
 		<meta name="author" content="Hakim El Hattab">
@@ -41,7 +41,8 @@
 			<article>
 				<h1>Meny</h1>
 				<p>
-					A three dimensional and space efficient menu concept.</p>
+					A three dimensional and space efficient menu concept.
+				</p>
 				<p>
 					Move your mouse to the left edge of this page &mdash; or swipe in from the left edge if you're on a touch device &mdash; to expand the menu.
 					Pass in a URL to test it with any page, like so: <a href="http://lab.hakim.se/meny/?http://hakim.se">lab.hakim.se/meny/?http://hakim.se.</a> 
@@ -71,14 +72,23 @@
 
 		<script src="js/meny.js"></script>
 		<script>
+			// Create an instance of Meny
 			var meny = Meny.create({
 				menuElement: document.querySelector( '.meny' ),
 				contentsElement: document.querySelector( '.contents' ),
-				position: 'left'
+				position: 'left',
+				height: 200,
+				width: 260
 			});
+
+			// API Methods:
+			// meny.activate();
+			// meny.deactivate();
+			// meny.isActive();
+
 			// Embed an iframe if a URL is passed in
 			if( window.location.search.length && window.location.search.match( /^\?(http|www)/gi ) ) {
-				var contents = document.querySelector( '.meny-contents' );
+				var contents = document.querySelector( '.contents' );
 				contents.style.padding = '0px';
 				contents.innerHTML = '<div class="cover"></div><iframe src="'+ window.location.search.slice( 1 ) +'" style="width: 100%; height: 100%; border: 0; position: absolute;"></iframe>';
 			}
