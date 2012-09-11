@@ -18,7 +18,6 @@
 	
 	<body>
 
-		<!-- Menu element that rolls in from the left -->
 		<div class="meny">
 			<h2>More Experiments</h2>
 			<ul>
@@ -38,8 +37,7 @@
 		<!-- Arrow that appears from the left when menu is collapsed -->
 		<div class="meny-arrow">&#x25BA;</div>
 
-		<!-- Contents that will be rotated when the meny is expanded -->
-		<div class="meny-contents">
+		<div class="contents">
 			<article>
 				<h1>Meny</h1>
 				<p>
@@ -75,8 +73,8 @@
 		<script>
 			var meny = Meny.create({
 				menuElement: document.querySelector( '.meny' ),
-				contentsElement: document.querySelector( '.meny-contents' ),
-				position: 'bottom'
+				contentsElement: document.querySelector( '.contents' ),
+				position: 'left'
 			});
 			// Embed an iframe if a URL is passed in
 			if( window.location.search.length && window.location.search.match( /^\?(http|www)/gi ) ) {

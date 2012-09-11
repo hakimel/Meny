@@ -154,7 +154,6 @@ var Meny = {
 				dom.cover.style.opacity = 0;
 				dom.cover.style[ prefix( 'transition' ) ] = 'all .5s ease';
 				dom.contentsElement.appendChild( dom.cover );
-
 			}
 
 			/**
@@ -185,6 +184,7 @@ var Meny = {
 						break;
 				}
 
+				dom.menuElement.style.display = 'block';
 				dom.menuElement.style.position = 'fixed';
 				dom.menuElement.style.zIndex = 1;
 				dom.menuElement.style[ prefix( 'boxSizing' ) ] = 'border-box';
@@ -207,6 +207,8 @@ var Meny = {
 				document.addEventListener( 'mousedown', onMouseDown, false );
 				document.addEventListener( 'mouseup', onMouseUp, false );
 				document.addEventListener( 'mousemove', onMouseMove, false );
+				document.addEventListener( 'touchstart', onTouchStart, false );
+				document.addEventListener( 'touchend', onTouchEnd, false );
 			}
 
 			function activate() {
@@ -284,6 +286,97 @@ var Meny = {
 				isMouseDown = false;
 			}
 
+			function onTouchStart( event ) {
+				touchStartX = event.touches[0].clientX - indentX;
+				touchStartY = event.touches[0].clientY - indentY;
+				touchMoveX = null;
+				touchMoveY = null;
+
+				document.addEventListener( 'touchmove', onTouchMove, false );
+			}
+
+			function onTouchMove( event ) {
+				touchMoveX = event.touches[0].clientX - indentX;
+				touchMoveY = event.touches[0].clientY - indentY;
+
+				var swipeMethod = null;
+
+				if( touchMoveX < touchStartX - config.activateThreshold ) {
+					swipeMethod = onSwipeRight;
+				}
+				else if( touchMoveX > touchStartX + config.activateThreshold ) {
+					swipeMethod = onSwipeLeft;
+				}
+				else if( touchMoveY < touchStartY - config.activateThreshold ) {
+					swipeMethod = onSwipeDown;
+				}
+				if( touchMoveY > touchStartY + config.activateThreshold ) {
+					swipeMethod = onSwipeUp;
+				}
+
+				if( swipeMethod && swipeMethod() ) {
+					event.preventDefault();
+				}
+			}
+
+			function onTouchEnd( event ) {
+				document.removeEventListener( 'touchmove', onTouchMove, false );
+
+				// If there was no movement this was a tap
+				if( touchMoveX === null && touchMoveY === null ) {
+					onTap();
+				}
+			}
+
+			function onTap() {
+
+			}
+
+			function onSwipeLeft() {
+				if( config.position === POSITION_RIGHT && isActive ) {
+					deactivate();
+					return true;
+				}
+				else if( config.position === POSITION_LEFT && !isActive ) {
+					activate();
+					return true;
+				}
+			}
+
+			function onSwipeRight() {
+				if( config.position === POSITION_RIGHT && !isActive ) {
+					activate();
+					return true;
+				}
+				else if( config.position === POSITION_LEFT && isActive ) {
+					deactivate();
+					return true;
+				}
+			}
+
+			function onSwipeUp() {
+				if( config.position === POSITION_BOTTOM && isActive ) {
+					deactivate();
+					return true;
+				}
+				else if( config.position === POSITION_TOP && !isActive ) {
+					activate();
+					return true;
+				}
+			}
+
+			function onSwipeDown() {
+				if( config.position === POSITION_BOTTOM && !isActive ) {
+					activate();
+					return true;
+				}
+				else if( config.position === POSITION_TOP && isActive ) {
+					deactivate();
+					return true;
+				}
+			}
+
+			// Return the API
 			return {
 				activate: activate,
 				deactivate: deactivate,
