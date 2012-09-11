@@ -1,10 +1,88 @@
 # Meny
 
-A three dimensional and space effecient menu concept. Requires a browser with support for CSS 3D transforms. Works very well in Mobile Safari.
+A three dimensional and space effecient menu. Requires a browser with support for CSS 3D transforms, a fallback for other browsers will be added shortly. Works very well in Mobile Safari with touch events.
 
 [Check out the demo page](http://lab.hakim.se/meny/).
 
+
+## Instructions
+
+#### 1. Download
+Add [meny.min.js](https://github.com/hakimel/Meny/blob/master/js/meny.min.js) to your project. The meny.min.js file is the only thing required, but you could optionally clone the repository if you want to get the default styles.
+
+### 2. Markup
+Meny requires two HTML elements to work: a **menu** and the page **contents**. The class names are not used by the library so chose anything you want.
+
+```html
+<body>
+  <div class="meny">
+    <!-- your menu items -->
+  </div>
+  <div class="contents">
+    <!-- your page contents -->
+  </div>
+</body>
+```
+
+Some rules, notes and best practices to keep in mind in terms of markup and styling:
+- The **menu** and **contents** should have the same **parent** element.
+- The background which appears behind the **contents** when Meny is open is not added by the library. You need to set your desired background to the **parent** element. The default style can be found in [demo.css](https://github.com/hakimel/Meny/blob/master/css/demo.css#L23).
+- The arrow which appears when Meny is closed is also not added by the library, if you want it you can easily copy the styles from the demo.css.
+- The **menu** container will be automatically resized by the library according to configuration options.
+- Meny works on scrolling pages as the menu itself is fixed.
+
+
+### 3. Initialize
+Next you need create an instance of Meny and tell it which HTML elements to use. This should be done after the **meny.min.js** is included on your page. Example using the HTML above:
+
+```javascript
+var meny = Meny.create({
+	// The element that will be animated in from off screen
+	menuElement: document.querySelector( '.meny' ),
+
+	// The contents that gets pushed aside while Meny is active
+	contentsElement: document.querySelector( '.contents' ),
+
+	// The alignment of the menu (top/right/bottom/left)
+	position: 'left',
+
+	// The height of the menu (when using top/bottom position)
+	height: 200,
+
+	// The width of the menu (when using left/right position)
+	width: 260
+});
+```
+
+### 4. API
+A few handy methods API methods are included, you call these on the instance returned by ```Meny.create``` (see above). 
+
+```javascript
+// Opens Meny
+meny.activate();
+
+// Closes Meny
+meny.deactivate();
+
+// Returns true if Meny is currently open
+meny.isActive();
+```
+
+The wrapper element (parent of the **menu** and **contents**) is decorated with classes based on its state:
+```css
+.meny-active
+.meny-top
+.meny-right
+.meny-bottom
+.meny-left
+```
+
+
 ## History
+
+#### 0.9
+- Rewrote the JavaScript
+- All core styles/transforms are set via JavaScript
 
 #### 0.3
 - Fallback mode that doesn't rely on transforms
