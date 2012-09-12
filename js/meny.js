@@ -3,7 +3,7 @@
  * http://lab.hakim.se/meny
  * MIT licensed
  *
- * Created by Hakim El Hattab, @hakimel, http://hakim.se
+ * Created by Hakim El Hattab (http://hakim.se, @hakimel)
  */
 var Meny = {
 	// Creates a new instance of Meny
@@ -22,19 +22,21 @@ var Meny = {
 				return false;
 			}
 
+			// Constants
 			var VENDORS = [ 'Webkit', 'Moz', 'O', 'ms' ],
 				POSITION_TOP = 'top',
 				POSITION_RIGHT = 'right',
 				POSITION_BOTTOM = 'bottom',
 				POSITION_LEFT = 'left';
 
+			// Feature detection for 3D transforms
 			var supports3DTransforms =  'WebkitPerspective' in document.body.style ||
 										'MozPerspective' in document.body.style ||
 										'msPerspective' in document.body.style ||
 										'OPerspective' in document.body.style ||
 										'perspective' in document.body.style;
 
-			// Extend our config defaults with the options
+			// Default options, gets extended by passed in arguments
 			var config = {
 				width: 300,
 				height: 300,
@@ -50,6 +52,7 @@ var Meny = {
 				cover: null
 			};
 
+			// State and input
 			var indentX = dom.wrapper.offsetLeft,
 				indentY = dom.wrapper.offsetTop,
 				touchStartX = null,
@@ -64,6 +67,8 @@ var Meny = {
 				contentsTransformClosed,
 				contentsTransformOpened;
 
+			// Extend the default config object with the passed in 
+			// options
 			extend( config, options );
 
 			if( supports3DTransforms ) {
@@ -125,6 +130,8 @@ var Meny = {
 			 * The wrapper element holds the menu and contents.
 			 */
 			function setupWrapper() {
+				// Add a class to allow for custom styles based on 
+				// position
 				addClass( dom.wrapper, 'meny-' + config.position );
 
 				dom.wrapper.style[ prefix( 'perspective' ) ] = '800px';
@@ -208,6 +215,9 @@ var Meny = {
 				document.addEventListener( 'touchend', onTouchEnd, false );
 			}
 
+			/**
+			 * Expands the menu.
+			 */
 			function activate() {
 				if( !isActive ) {
 					isActive = true;
@@ -223,6 +233,9 @@ var Meny = {
 				}
 			}
 
+			/**
+			 * Closes the menu.
+			 */
 			function deactivate() {
 				if( isActive ) {
 					isActive = false;
@@ -432,6 +445,8 @@ var Meny = {
 			return {
 				activate: activate,
 				deactivate: deactivate,
+				open: activate, // Alias
+				close: deactivate, // Alias
 
 				isActive: function() {
 					return isActive;
