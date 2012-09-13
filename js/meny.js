@@ -13,13 +13,11 @@ var Meny = {
 			// Make sure the required arguments are defined
 			if( !options || !options.menuElement || !options.contentsElement ) {
 				throw 'You need to specify which menu and contents elements to use.';
-				return false;
 			}
 
 			// Make sure the menu and contents have the same parent
 			if( options.menuElement.parentNode !== options.contentsElement.parentNode ) {
 				throw 'The menu and contents elements must have the same parent.';
-				return false;
 			}
 
 			// Constants
@@ -34,7 +32,7 @@ var Meny = {
 										'msPerspective' in document.body.style ||
 										'OPerspective' in document.body.style ||
 										'perspective' in document.body.style;
-			
+
 			// Default options, gets extended by passed in arguments
 			var config = {
 				width: 300,
@@ -58,7 +56,9 @@ var Meny = {
 			var indentX = dom.wrapper.offsetLeft,
 				indentY = dom.wrapper.offsetTop,
 				touchStartX = null,
+				touchStartY = null,
 				touchMoveX = null,
+				touchMoveY = null,
 				isOpen = false,
 				isMouseDown = false;
 
@@ -488,7 +488,9 @@ var Meny = {
 	animate: function( element, properties, duration ) {
 		return (function() {
 			// Remove any other animations on this element
-			if( element.menyAnimation ) element.menyAnimation.stop();
+			if( element.menyAnimation ) {
+				element.menyAnimation.stop();
+			}
 
 			// Will hold start/end values for all properties
 			var interpolations = {};
@@ -541,7 +543,7 @@ var Meny = {
 			
 			return {
 				stop: stop
-			}
+			};
 		})();
 	},
 
@@ -592,10 +594,10 @@ var Meny = {
 	 */
 	bindEvent: function( element, ev, fn ) {
 		if( element.addEventListener ) {
-		    element.addEventListener( ev, fn, false );
+			element.addEventListener( ev, fn, false );
 		}
 		else {
-		    element.attachEvent( 'on' + ev, fn );
+			element.attachEvent( 'on' + ev, fn );
 		}
 	},
 
@@ -604,10 +606,10 @@ var Meny = {
 	 */
 	unbindEvent: function( element, ev, fn ) {
 		if( element.removeEventListener ) {
-		    element.removeEventListener( ev, fn, false );
+			element.removeEventListener( ev, fn, false );
 		}
 		else {
-		    element.detachEvent( 'on' + ev, fn );
+			element.detachEvent( 'on' + ev, fn );
 		}
 	},
 
