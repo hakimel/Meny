@@ -83,23 +83,23 @@
 				// The contents that gets pushed aside while Meny is active
 				contentsElement: document.querySelector( '.contents' ),
 
-				// The alignment of the menu (top/right/bottom/left)
+				// [optional] The alignment of the menu (top/right/bottom/left)
 				position: Meny.getQuery().p || 'left',
 
-				// The height of the menu (when using top/bottom position)
+				// [optional] The height of the menu (when using top/bottom position)
 				height: 200,
 
-				// The width of the menu (when using left/right position)
+				// [optional] The width of the menu (when using left/right position)
 				width: 260,
 
-				// Distance from mouse (in pixels) when menu should open
-				activateThreshold: 40
+				// [optional] Distance from mouse (in pixels) when menu should open
+				threshold: 40
 			});
 
 			// API Methods:
-			// meny.activate();
-			// meny.deactivate();
-			// meny.isActive();
+			// meny.open();
+			// meny.close();
+			// meny.isOpen();
 			
 
 			// Embed an iframe if a URL is passed in

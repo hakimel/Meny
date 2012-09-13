@@ -1,6 +1,6 @@
 # Meny
 
-A three dimensional and space effecient menu. Requires a browser with support for CSS 3D transforms, a fallback for other browsers will be added shortly. Works very well in Mobile Safari with touch events.
+A three dimensional and space effecient menu. Requires a browser with support for CSS 3D transforms. Works very well in Mobile Safari with touch events.
 
 [Check out the demo page](http://lab.hakim.se/meny/).
 
@@ -58,14 +58,11 @@ var meny = Meny.create({
 A few handy methods API methods are included, you call these on the instance returned by ```Meny.create``` (see above). 
 
 ```javascript
-// Opens Meny
-meny.activate();
+meny.open();
 
-// Closes Meny
-meny.deactivate();
+meny.close();
 
-// Returns true if Meny is currently open
-meny.isActive();
+meny.isOpen(); // true/false
 ```
 
 The wrapper element (parent of the **menu** and **contents**) is decorated with classes based on its state:
@@ -83,6 +80,8 @@ The wrapper element (parent of the **menu** and **contents**) is decorated with 
 #### 0.9
 - Rewrote the JavaScript
 - All core styles/transforms are set via JavaScript
+- Made many options available at initialization
+- New JavaScript fallback using internal animation method
 
 #### 0.3
 - Fallback mode that doesn't rely on transforms

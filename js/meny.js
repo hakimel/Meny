@@ -1,5 +1,5 @@
 /*!
- * meny 0.9
+ * meny 0.9.1
  * http://lab.hakim.se/meny
  * MIT licensed
  *
@@ -23,11 +23,10 @@ var Meny = {
 			}
 
 			// Constants
-			var VENDORS = [ 'Webkit', 'Moz', 'O', 'ms' ],
-				POSITION_TOP = 'top',
-				POSITION_RIGHT = 'right',
-				POSITION_BOTTOM = 'bottom',
-				POSITION_LEFT = 'left';
+			var POSITION_T = 'top',
+				POSITION_R = 'right',
+				POSITION_B = 'bottom',
+				POSITION_L = 'left';
 
 			// Feature detection for 3D transforms
 			var supports3DTransforms =  'WebkitPerspective' in document.body.style ||
@@ -35,19 +34,22 @@ var Meny = {
 										'msPerspective' in document.body.style ||
 										'OPerspective' in document.body.style ||
 										'perspective' in document.body.style;
-
+			
 			// Default options, gets extended by passed in arguments
 			var config = {
 				width: 300,
 				height: 300,
-				position: POSITION_LEFT,
-				activateThreshold: 40
+				position: POSITION_L,
+				threshold: 40,
+				overlap: 6,
+				transitionDuration: '0.5s',
+				transitionEasing: 'ease'
 			};
 
 			// Cache references to DOM elements
 			var dom = {
-				menuElement: options.menuElement,
-				contentsElement: options.contentsElement,
+				menu: options.menuElement,
+				contents: options.contentsElement,
 				wrapper: options.menuElement.parentNode,
 				cover: null
 			};
@@ -57,71 +59,97 @@ var Meny = {
 				indentY = dom.wrapper.offsetTop,
 				touchStartX = null,
 				touchMoveX = null,
-				isActive = false,
+				isOpen = false,
 				isMouseDown = false;
 
+			// Precalculated transform and style states
 			var menuTransformOrigin,
 				menuTransformClosed,
 				menuTransformOpened,
+				menuStyleClosed,
+				menuStyleOpened,
+
 				contentsTransformOrigin,
 				contentsTransformClosed,
-				contentsTransformOpened;
+				contentsTransformOpened,
+				contentsStyleClosed,
+				contentsStyleOpened;
 
 			// Extend the default config object with the passed in 
 			// options
-			extend( config, options );
+			Meny.extend( config, options );
 
-			if( supports3DTransforms ) {
-				setupTransforms();
-				setupWrapper();
-				setupCover();
-				setupMenu();
-				setupContents();
+			setupPositions();
+			setupWrapper();
+			setupCover();
+			setupMenu();
+			setupContents();
 
-				bindEvents();
-			}
-			else {
-				// JS animation fallback will be added soon
-				dom.menuElement.style.display = 'block';
-				console.log( 'Your browser doesn\'t support 3D transforms, fallback coming soon.' );
-				return false;
-			}
+			bindEvents();
 
 			/**
 			 * Prepares the transforms for the current positioning 
 			 * settings.
 			 */
-			function setupTransforms() {
+			function setupPositions() {
 				menuTransformOpened = '';
 				contentsTransformClosed = '';
 
 				switch( config.position ) {
-					case POSITION_TOP:
+					case POSITION_T:
+						// Primary transform:
 						menuTransformOrigin = '50% 0%';
-						menuTransformClosed = 'rotateX( 30deg ) translateY( -100% ) translateY( 6px )';
+						menuTransformClosed = 'rotateX( 30deg ) translateY( -100% ) translateY( '+ config.overlap +'px )';
 						contentsTransformOrigin = '50% 0';
 						contentsTransformOpened = 'translateY( '+ config.height +'px ) rotateX( -15deg )';
+
+						// Position fallback:
+						menuStyleClosed = { top: '-' + (config.height-config.overlap) + 'px' };
+						menuStyleOpened = { top: '0px' };
+						contentsStyleClosed = { top: '0px' };
+						contentsStyleOpened = { top: config.height + 'px' };
 						break;
 
-					case POSITION_RIGHT:
+					case POSITION_R:
+						// Primary transform:
 						menuTransformOrigin = '100% 50%';
 						menuTransformClosed = 'rotateY( 30deg ) translateX( 100% ) translateX( -2px ) scale( 1.01 )';
 						contentsTransformOrigin = '100% 50%';
 						contentsTransformOpened = 'translateX( -'+ config.width +'px ) rotateY( -15deg )';
+
+						// Position fallback:
+						menuStyleClosed = { right: '-' + (config.width-config.overlap) + 'px' };
+						menuStyleOpened = { right: '0px' };
+						contentsStyleClosed = { left: '0px' };
+						contentsStyleOpened = { left: '-' + config.width + 'px' };
 						break;
 
-					case POSITION_BOTTOM:
+					case POSITION_B:
+						// Primary transform:
 						menuTransformOrigin = '50% 100%';
-						menuTransformClosed = 'rotateX( -30deg ) translateY( 100% ) translateY( -6px )';
+						menuTransformClosed = 'rotateX( -30deg ) translateY( 100% ) translateY( -'+ config.overlap +'px )';
 						contentsTransformOrigin = '50% 100%';
 						contentsTransformOpened = 'translateY( -'+ config.height +'px ) rotateX( 15deg )';
+
+						// Position fallback:
+						menuStyleClosed = { bottom: '-' + (config.height-config.overlap) + 'px' };
+						menuStyleOpened = { bottom: '0px' };
+						contentsStyleClosed = { top: '0px' };
+						contentsStyleOpened = { top: '-' + config.height + 'px' };
 						break;
 
 					default:
+						// Primary transform:
 						menuTransformOrigin = '100% 50%';
-						menuTransformClosed = 'translateX( -100% ) translateX( 6px ) scale( 1.01 ) rotateY( -30deg )';
+						menuTransformClosed = 'translateX( -100% ) translateX( '+ config.overlap +'px ) scale( 1.01 ) rotateY( -30deg )';
 						contentsTransformOrigin = '0 50%';
 						contentsTransformOpened = 'translateX( '+ config.width +'px ) rotateY( 15deg )';
+
+						// Position fallback:
+						menuStyleClosed = { left: '-' + (config.width-config.overlap) + 'px' };
+						menuStyleOpened = { left: '0px' };
+						contentsStyleClosed = { left: '0px' };
+						contentsStyleOpened = { left: config.width + 'px' };
 						break;
 				}
 			}
@@ -132,10 +160,10 @@ var Meny = {
 			function setupWrapper() {
 				// Add a class to allow for custom styles based on 
 				// position
-				addClass( dom.wrapper, 'meny-' + config.position );
+				Meny.addClass( dom.wrapper, 'meny-' + config.position );
 
-				dom.wrapper.style[ prefix( 'perspective' ) ] = '800px';
-				dom.wrapper.style[ prefix( 'perspectiveOrigin' ) ] = contentsTransformOrigin;
+				dom.wrapper.style[ Meny.prefix( 'perspective' ) ] = '800px';
+				dom.wrapper.style[ Meny.prefix( 'perspectiveOrigin' ) ] = contentsTransformOrigin;
 			}
 
 			/**
@@ -144,57 +172,66 @@ var Meny = {
 			 */
 			function setupCover() {
 				dom.cover = document.createElement( 'div' );
-				dom.cover.style.display = 'block';
 				dom.cover.style.position = 'absolute';
+				dom.cover.style.display = 'block';
 				dom.cover.style.width = '100%';
 				dom.cover.style.height = '100%';
 				dom.cover.style.left = 0;
 				dom.cover.style.top = 0;
-				dom.cover.style.visibility = 'hidden';
 				dom.cover.style.zIndex = 1000;
+				dom.cover.style.visibility = 'hidden';
 				dom.cover.style.background = 'rgba( 0, 0, 0, 0.4 )';
-				dom.cover.style.background = '-ms-linear-gradient('+ config.position +',  rgba(0,0,0,0.20) 0%,rgba(0,0,0,0.65) 100%)';
-				dom.cover.style.background = '-moz-linear-gradient('+ config.position +',  rgba(0,0,0,0.20) 0%,rgba(0,0,0,0.65) 100%)';
-				dom.cover.style.background = '-webkit-linear-gradient('+ config.position +',  rgba(0,0,0,0.20) 0%,rgba(0,0,0,0.65) 100%)';
+				dom.cover.style.background = '-ms-linear-gradient('+ config.position +', rgba(0,0,0,0.20) 0%,rgba(0,0,0,0.65) 100%)';
+				dom.cover.style.background = '-moz-linear-gradient('+ config.position +', rgba(0,0,0,0.20) 0%,rgba(0,0,0,0.65) 100%)';
+				dom.cover.style.background = '-webkit-linear-gradient('+ config.position +', rgba(0,0,0,0.20) 0%,rgba(0,0,0,0.65) 100%)';
 				dom.cover.style.opacity = 0;
-				dom.cover.style[ prefix( 'transition' ) ] = 'all .5s ease';
-				dom.contentsElement.appendChild( dom.cover );
+				dom.cover.style[ Meny.prefix( 'transition' ) ] = 'all ' + config.transitionDuration +' '+ config.transitionEasing;
+				dom.contents.appendChild( dom.cover );
 			}
 
 			/**
 			 * The meny element that folds out upon activation.
 			 */
 			function setupMenu() {
+				// Shorthand
+				var style = dom.menu.style;
+
 				switch( config.position ) {
-					case POSITION_TOP:
-						dom.menuElement.style.width = '100%';
-						dom.menuElement.style.height = config.height + 'px';
+					case POSITION_T:
+						style.width = '100%';
+						style.height = config.height + 'px';
 						break;
 
-					case POSITION_RIGHT:
-						dom.menuElement.style.right = '0';
-						dom.menuElement.style.width = config.width + 'px';
-						dom.menuElement.style.height = '100%';
+					case POSITION_R:
+						style.right = '0';
+						style.width = config.width + 'px';
+						style.height = '100%';
 						break;
 
-					case POSITION_BOTTOM:
-						dom.menuElement.style.bottom = '0';
-						dom.menuElement.style.width = '100%';
-						dom.menuElement.style.height = config.height + 'px';
+					case POSITION_B:
+						style.bottom = '0';
+						style.width = '100%';
+						style.height = config.height + 'px';
 						break;
 
-					case POSITION_LEFT:
-						dom.menuElement.style.width = config.width + 'px';
-						dom.menuElement.style.height = '100%';
+					case POSITION_L:
+						style.width = config.width + 'px';
+						style.height = '100%';
 						break;
 				}
 
-				dom.menuElement.style.display = 'block';
-				dom.menuElement.style.position = 'fixed';
-				dom.menuElement.style.zIndex = 1;
-				dom.menuElement.style[ prefix( 'transform' ) ] = menuTransformClosed;
-				dom.menuElement.style[ prefix( 'transformOrigin' ) ] = menuTransformOrigin;
-				dom.menuElement.style[ prefix( 'transition' ) ] = 'all .5s ease';
+				style.position = 'fixed';
+				style.display = 'block';
+				style.zIndex = 1;
+
+				if( supports3DTransforms ) {
+					style[ Meny.prefix( 'transform' ) ] = menuTransformClosed;
+					style[ Meny.prefix( 'transformOrigin' ) ] = menuTransformOrigin;
+					style[ Meny.prefix( 'transition' ) ] = 'all ' + config.transitionDuration +' '+ config.transitionEasing;
+				}
+				else {
+					Meny.extend( style, menuStyleClosed );
+				}
 			}
 
 			/**
@@ -202,91 +239,80 @@ var Meny = {
 			 * Meny is open.
 			 */
 			function setupContents() {
-				dom.contentsElement.style[ prefix( 'transform' ) ] = contentsTransformClosed;
-				dom.contentsElement.style[ prefix( 'transformOrigin' ) ] = contentsTransformOrigin;
-				dom.contentsElement.style[ prefix( 'transition' ) ] = 'all .5s ease';
+				// Shorthand
+				var style = dom.contents.style;
+
+				if( supports3DTransforms ) {
+					style[ Meny.prefix( 'transform' ) ] = contentsTransformClosed;
+					style[ Meny.prefix( 'transformOrigin' ) ] = contentsTransformOrigin;
+					style[ Meny.prefix( 'transition' ) ] = 'all ' + config.transitionDuration +' '+ config.transitionEasing;
+				}
+				else {
+					style.position = style.position.match( /relative|absolute|fixed/gi ) ? style.position : 'relative';
+					Meny.extend( style, contentsStyleClosed );
+				}
 			}
 
+			/**
+			 * Attaches all input event listeners.
+			 */
 			function bindEvents() {
-				document.addEventListener( 'mousedown', onMouseDown, false );
-				document.addEventListener( 'mouseup', onMouseUp, false );
-				document.addEventListener( 'mousemove', onMouseMove, false );
-				document.addEventListener( 'touchstart', onTouchStart, false );
-				document.addEventListener( 'touchend', onTouchEnd, false );
+				Meny.bindEvent( document, 'mousedown', onMouseDown );
+				Meny.bindEvent( document, 'mouseup', onMouseUp );
+				Meny.bindEvent( document, 'mousemove', onMouseMove );
+				Meny.bindEvent( document, 'touchstart', onTouchStart );
+				Meny.bindEvent( document, 'touchend', onTouchEnd );
 			}
 
 			/**
 			 * Expands the menu.
 			 */
-			function activate() {
-				if( !isActive ) {
-					isActive = true;
+			function open() {
+				if( !isOpen ) {
+					isOpen = true;
 
-					addClass( dom.wrapper, 'meny-active' );
+					Meny.addClass( dom.wrapper, 'meny-active' );
 
-					dom.cover.style.height = dom.contentsElement.scrollHeight + 'px';
-					dom.cover.style.visibility = 'visible';
-					dom.cover.style.opacity = 1;
+					// Use transforms and transitions if available...
+					if( supports3DTransforms ) {
+						dom.cover.style.height = dom.contents.scrollHeight + 'px';
+						dom.cover.style.visibility = 'visible';
+						dom.cover.style.opacity = 1;
 
-					dom.contentsElement.style[ prefix( 'transform' ) ] = contentsTransformOpened;
-					dom.menuElement.style[ prefix( 'transform' ) ] = menuTransformOpened;
-				}
-			}
-
-			/**
-			 * Closes the menu.
-			 */
-			function deactivate() {
-				if( isActive ) {
-					isActive = false;
-
-					removeClass( dom.wrapper, 'meny-active' );
-
-					dom.cover.style.visibility = 'hidden';
-					dom.cover.style.opacity = 0;
-
-					dom.contentsElement.style[ prefix( 'transform' ) ] = contentsTransformClosed;
-					dom.menuElement.style[ prefix( 'transform' ) ] = menuTransformClosed;
-				}
-			}
-
-
-			/// UTIL: //////////////////////////////////
-			
-
-			/**
-			 * Extend object a with the properties of object b. 
-			 * If there's a conflict, object b takes precedence.
-			 */
-			function extend( a, b ) {
-				for( var i in b ) {
-					a[ i ] = b[ i ];
-				}
-			}
-
-			/**
-			 * Prefixes a CSS property with the correct vendor.
-			 */
-			function prefix( property, el ) {
-				var propertyUC = property.slice( 0, 1 ).toUpperCase() + property.slice( 1 );
-
-				for( var i = 0, len = VENDORS.length; i < len; i++ ) {
-					var vendor = VENDORS[i];
-
-					if( typeof ( el || document.body ).style[ vendor + propertyUC ] !== 'undefined' ) {
-						return vendor + propertyUC;
+						dom.contents.style[ Meny.prefix( 'transform' ) ] = contentsTransformOpened;
+						dom.menu.style[ Meny.prefix( 'transform' ) ] = menuTransformOpened;
+					}
+					// ...fall back on JS animation
+					else {
+						Meny.animate( dom.menu, menuStyleOpened, 500 );
+						Meny.animate( dom.contents, contentsStyleOpened, 500 );
 					}
 				}
-
-				return property;
 			}
 
-			function addClass( element, name ) {
-				element.className = element.className.replace( /\s+$/gi, '' ) + ' ' + name;
-			}
+			/**
+			 * Collapses the menu.
+			 */
+			function close() {
+				if( isOpen ) {
+					isOpen = false;
 
-			function removeClass( element, name ) {
-				element.className = element.className.replace( name, '' );
+					Meny.removeClass( dom.wrapper, 'meny-active' );
+
+					// Use transforms and transitions if available...
+					if( supports3DTransforms ) {
+						dom.cover.style.visibility = 'hidden';
+						dom.cover.style.opacity = 0;
+
+						dom.contents.style[ Meny.prefix( 'transform' ) ] = contentsTransformClosed;
+						dom.menu.style[ Meny.prefix( 'transform' ) ] = menuTransformClosed;
+					}
+					// ...fall back on JS animation
+					else {
+						Meny.animate( dom.menu, menuStyleClosed, 500 );
+						Meny.animate( dom.contents, contentsStyleClosed, 500 );
+					}
+				}
 			}
 
 
@@ -304,41 +330,41 @@ var Meny = {
 						y = event.clientY - indentY;
 
 					switch( config.position ) {
-						case POSITION_TOP:
+						case POSITION_T:
 							if( y > config.height ) {
-								deactivate();
+								close();
 							}
-							else if( y < config.activateThreshold ) {
-								activate();
+							else if( y < config.threshold ) {
+								open();
 							}
 							break;
 
-						case POSITION_RIGHT:
+						case POSITION_R:
 							var w = dom.wrapper.offsetWidth;
 							if( x < w - config.width ) {
-								deactivate();
+								close();
 							}
-							else if( x > w - config.activateThreshold ) {
-								activate();
+							else if( x > w - config.threshold ) {
+								open();
 							}
 							break;
 
-						case POSITION_BOTTOM:
+						case POSITION_B:
 							var h = dom.wrapper.offsetHeight;
 							if( y < h - config.height ) {
-								deactivate();
+								close();
 							}
-							else if( y > h - config.activateThreshold ) {
-								activate();
+							else if( y > h - config.threshold ) {
+								open();
 							}
 							break;
 
-						case POSITION_LEFT:
+						case POSITION_L:
 							if( x > config.width ) {
-								deactivate();
+								close();
 							}
-							else if( x < config.activateThreshold ) {
-								activate();
+							else if( x < config.threshold ) {
+								open();
 							}
 							break;
 					}
@@ -355,7 +381,7 @@ var Meny = {
 				touchMoveX = null;
 				touchMoveY = null;
 
-				document.addEventListener( 'touchmove', onTouchMove, false );
+				Meny.bindEvent( document, 'touchmove', onTouchMove );
 			}
 
 			function onTouchMove( event ) {
@@ -364,16 +390,18 @@ var Meny = {
 
 				var swipeMethod = null;
 
-				if( touchMoveX < touchStartX - config.activateThreshold ) {
+				// Check for swipe gestures in any direction
+				
+				if( touchMoveX < touchStartX - config.threshold ) {
 					swipeMethod = onSwipeRight;
 				}
-				else if( touchMoveX > touchStartX + config.activateThreshold ) {
+				else if( touchMoveX > touchStartX + config.threshold ) {
 					swipeMethod = onSwipeLeft;
 				}
-				else if( touchMoveY < touchStartY - config.activateThreshold ) {
+				else if( touchMoveY < touchStartY - config.threshold ) {
 					swipeMethod = onSwipeDown;
 				}
-				if( touchMoveY > touchStartY + config.activateThreshold ) {
+				if( touchMoveY > touchStartY + config.threshold ) {
 					swipeMethod = onSwipeUp;
 				}
 
@@ -383,7 +411,7 @@ var Meny = {
 			}
 
 			function onTouchEnd( event ) {
-				document.removeEventListener( 'touchmove', onTouchMove, false );
+				Meny.bindEvent( document, 'touchmove', onTouchMove );
 
 				// If there was no movement this was a tap
 				if( touchMoveX === null && touchMoveY === null ) {
@@ -396,45 +424,45 @@ var Meny = {
 			}
 
 			function onSwipeLeft() {
-				if( config.position === POSITION_RIGHT && isActive ) {
-					deactivate();
+				if( config.position === POSITION_R && isOpen ) {
+					close();
 					return true;
 				}
-				else if( config.position === POSITION_LEFT && !isActive ) {
-					activate();
+				else if( config.position === POSITION_L && !isOpen ) {
+					open();
 					return true;
 				}
 			}
 
 			function onSwipeRight() {
-				if( config.position === POSITION_RIGHT && !isActive ) {
-					activate();
+				if( config.position === POSITION_R && !isOpen ) {
+					open();
 					return true;
 				}
-				else if( config.position === POSITION_LEFT && isActive ) {
-					deactivate();
+				else if( config.position === POSITION_L && isOpen ) {
+					close();
 					return true;
 				}
 			}
 
 			function onSwipeUp() {
-				if( config.position === POSITION_BOTTOM && isActive ) {
-					deactivate();
+				if( config.position === POSITION_B && isOpen ) {
+					close();
 					return true;
 				}
-				else if( config.position === POSITION_TOP && !isActive ) {
-					activate();
+				else if( config.position === POSITION_T && !isOpen ) {
+					open();
 					return true;
 				}
 			}
 
 			function onSwipeDown() {
-				if( config.position === POSITION_BOTTOM && !isActive ) {
-					activate();
+				if( config.position === POSITION_B && !isOpen ) {
+					open();
 					return true;
 				}
-				else if( config.position === POSITION_TOP && isActive ) {
-					deactivate();
+				else if( config.position === POSITION_T && isOpen ) {
+					close();
 					return true;
 				}
 			}
@@ -443,20 +471,149 @@ var Meny = {
 			/// API: ///////////////////////////////////
 			
 			return {
-				activate: activate,
-				deactivate: deactivate,
-				open: activate, // Alias
-				close: deactivate, // Alias
+				open: open, 
+				close: close,
 
-				isActive: function() {
-					return isActive;
+				isOpen: function() {
+					return isOpen;
 				}
 			};
 
 		})();
 	},
 
-	// Helper method, retrieves query string as a key/value hash
+	/**
+	 * Helper method, changes an element style over time.
+	 */
+	animate: function( element, properties, duration ) {
+		return (function() {
+			// Remove any other animations on this element
+			if( element.menyAnimation ) element.menyAnimation.stop();
+
+			// Will hold start/end values for all properties
+			var interpolations = {};
+
+			// Format properties
+			for( var p in properties ) {
+				interpolations[p] = {
+					start: parseFloat( element.style[p] ) || 0,
+					end: parseFloat( properties[p] ),
+					unit: properties[p].match( /px|em|%/gi ) ? properties[p].match( /px|em|%/gi )[0] : ''
+				};
+			}
+
+			var animationStartTime = Date.now(),
+				animationTimeout;
+
+			// Takes one step forward in the animation
+			function step() {
+				// Ease out
+				var progress = 1 - Math.pow( 1 - ( ( Date.now() - animationStartTime ) / duration ), 5 );
+
+				// Set style to interpolated value
+				for( var p in interpolations ) {
+					var property = interpolations[p];
+					element.style[p] = property.start + ( ( property.end - property.start ) * progress ) + property.unit;
+				}
+
+				// Continue as long as we're not done
+				if( progress < 1 ) {
+					animationTimeout = setTimeout( step, 1000 / 60 );
+				}
+				else {
+					stop();
+				}
+			}
+
+			// Cancels the animation
+			function stop() {
+				delete element.menyAnimation;
+				clearTimeout( animationTimeout );
+			}
+
+			// Starts the animation
+			step();
+
+			element.menyAnimation = this;
+
+			
+			/// API: ///////////////////////////////////
+			
+			return {
+				stop: stop
+			}
+		})();
+	},
+
+	/**
+	 * Extend object a with the properties of object b. 
+	 * If there's a conflict, object b takes precedence.
+	 */
+	extend: function( a, b ) {
+		for( var i in b ) {
+			a[ i ] = b[ i ];
+		}
+	},
+
+	/**
+	 * Prefixes a style property with the correct vendor.
+	 */
+	prefix: function( property, el ) {
+		var propertyUC = property.slice( 0, 1 ).toUpperCase() + property.slice( 1 ),
+			vendors = [ 'Webkit', 'Moz', 'O', 'ms' ];
+
+		for( var i = 0, len = vendors.length; i < len; i++ ) {
+			var vendor = vendors[i];
+
+			if( typeof ( el || document.body ).style[ vendor + propertyUC ] !== 'undefined' ) {
+				return vendor + propertyUC;
+			}
+		}
+
+		return property;
+	},
+
+	/**
+	 * Adds a class to the target element.
+	 */
+	addClass: function( element, name ) {
+		element.className = element.className.replace( /\s+$/gi, '' ) + ' ' + name;
+	},
+
+	/**
+	 * Removes a class from the target element.
+	 */
+	removeClass: function( element, name ) {
+		element.className = element.className.replace( name, '' );
+	},
+
+	/**
+	 * Adds an event listener in a browser safe way.
+	 */
+	bindEvent: function( element, ev, fn ) {
+		if( element.addEventListener ) {
+		    element.addEventListener( ev, fn, false );
+		}
+		else {
+		    element.attachEvent( 'on' + ev, fn );
+		}
+	},
+
+	/**
+	 * Removes an event listener in a browser safe way.
+	 */
+	unbindEvent: function( element, ev, fn ) {
+		if( element.removeEventListener ) {
+		    element.removeEventListener( ev, fn, false );
+		}
+		else {
+		    element.detachEvent( 'on' + ev, fn );
+		}
+	},
+
+	/**
+	 * Retrieves query string as a key/value hash.
+	 */
 	getQuery: function() {
 		var query = {};
 
