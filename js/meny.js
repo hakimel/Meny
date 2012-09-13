@@ -32,7 +32,7 @@ var Meny = {
 										'msPerspective' in document.body.style ||
 										'OPerspective' in document.body.style ||
 										'perspective' in document.body.style;
-
+			
 			// Default options, gets extended by passed in arguments
 			var config = {
 				width: 300,
@@ -74,6 +74,10 @@ var Meny = {
 				contentsTransformOpened,
 				contentsStyleClosed,
 				contentsStyleOpened;
+
+			// Ongoing animations (for fallback mode)
+			var menuAnimation,
+				contentsAnimation;
 
 			// Extend the default config object with the passed in 
 			// options
@@ -172,20 +176,25 @@ var Meny = {
 			 */
 			function setupCover() {
 				dom.cover = document.createElement( 'div' );
-				dom.cover.style.position = 'absolute';
-				dom.cover.style.display = 'block';
-				dom.cover.style.width = '100%';
-				dom.cover.style.height = '100%';
-				dom.cover.style.left = 0;
-				dom.cover.style.top = 0;
-				dom.cover.style.zIndex = 1000;
-				dom.cover.style.visibility = 'hidden';
-				dom.cover.style.background = 'rgba( 0, 0, 0, 0.4 )';
-				dom.cover.style.background = '-ms-linear-gradient('+ config.position +', rgba(0,0,0,0.20) 0%,rgba(0,0,0,0.65) 100%)';
-				dom.cover.style.background = '-moz-linear-gradient('+ config.position +', rgba(0,0,0,0.20) 0%,rgba(0,0,0,0.65) 100%)';
-				dom.cover.style.background = '-webkit-linear-gradient('+ config.position +', rgba(0,0,0,0.20) 0%,rgba(0,0,0,0.65) 100%)';
-				dom.cover.style.opacity = 0;
-				dom.cover.style[ Meny.prefix( 'transition' ) ] = 'all ' + config.transitionDuration +' '+ config.transitionEasing;
+
+				// Disabled until a falback fade in animation is added
+				if( supports3DTransforms ) {
+					dom.cover.style.position = 'absolute';
+					dom.cover.style.display = 'block';
+					dom.cover.style.width = '100%';
+					dom.cover.style.height = '100%';
+					dom.cover.style.left = 0;
+					dom.cover.style.top = 0;
+					dom.cover.style.zIndex = 1000;
+					dom.cover.style.visibility = 'hidden';
+					dom.cover.style.background = 'rgba( 0, 0, 0, 0.4 )';
+					dom.cover.style.background = '-ms-linear-gradient('+ config.position +', rgba(0,0,0,0.20) 0%,rgba(0,0,0,0.65) 100%)';
+					dom.cover.style.background = '-moz-linear-gradient('+ config.position +', rgba(0,0,0,0.20) 0%,rgba(0,0,0,0.65) 100%)';
+					dom.cover.style.background = '-webkit-linear-gradient('+ config.position +', rgba(0,0,0,0.20) 0%,rgba(0,0,0,0.65) 100%)';
+					dom.cover.style.opacity = 0;
+					dom.cover.style[ Meny.prefix( 'transition' ) ] = 'all ' + config.transitionDuration +' '+ config.transitionEasing;
+				}
+
 				dom.contents.appendChild( dom.cover );
 			}
 
@@ -284,8 +293,10 @@ var Meny = {
 					}
 					// ...fall back on JS animation
 					else {
-						Meny.animate( dom.menu, menuStyleOpened, 500 );
-						Meny.animate( dom.contents, contentsStyleOpened, 500 );
+						menuAnimation && menuAnimation.stop();
+						menuAnimation = Meny.animate( dom.menu, menuStyleOpened, 500 );
+						contentsAnimation && contentsAnimation.stop();
+						contentsAnimation = Meny.animate( dom.contents, contentsStyleOpened, 500 );
 					}
 				}
 			}
@@ -309,8 +320,10 @@ var Meny = {
 					}
 					// ...fall back on JS animation
 					else {
-						Meny.animate( dom.menu, menuStyleClosed, 500 );
-						Meny.animate( dom.contents, contentsStyleClosed, 500 );
+						menuAnimation && menuAnimation.stop();
+						menuAnimation = Meny.animate( dom.menu, menuStyleClosed, 500 );
+						contentsAnimation && contentsAnimation.stop();
+						contentsAnimation = Meny.animate( dom.contents, contentsStyleClosed, 500 );
 					}
 				}
 			}
@@ -494,11 +507,6 @@ var Meny = {
 	 */
 	animate: function( element, properties, duration ) {
 		return (function() {
-			// Remove any other animations on this element
-			if( element.menyAnimation ) {
-				element.menyAnimation.stop();
-			}
-
 			// Will hold start/end values for all properties
 			var interpolations = {};
 
@@ -536,14 +544,11 @@ var Meny = {
 
 			// Cancels the animation
 			function stop() {
-				delete element.menyAnimation;
 				clearTimeout( animationTimeout );
 			}
 
 			// Starts the animation
 			step();
-
-			element.menyAnimation = this;
 
 			
 			/// API: ///////////////////////////////////
