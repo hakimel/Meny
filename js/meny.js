@@ -411,7 +411,7 @@ var Meny = {
 			}
 
 			function onTouchEnd( event ) {
-				Meny.bindEvent( document, 'touchmove', onTouchMove );
+				Meny.unbindEvent( document, 'touchmove', onTouchMove );
 
 				// If there was no movement this was a tap
 				if( touchMoveX === null && touchMoveY === null ) {
@@ -420,7 +420,14 @@ var Meny = {
 			}
 
 			function onTap() {
-
+				var isOverContent = ( config.position === POSITION_T && touchStartY > config.height ) ||
+									( config.position === POSITION_R && touchStartX < dom.wrapper.offsetWidth - config.width ) ||
+									( config.position === POSITION_B && touchStartY < dom.wrapper.offsetHeight - config.height ) ||
+									( config.position === POSITION_L && touchStartX < config.width );
+				
+				if( isOverContent ) {
+					close();
+				}
 			}
 
 			function onSwipeLeft() {
