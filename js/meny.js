@@ -1,5 +1,5 @@
 /*!
- * meny 0.9.1
+ * meny 1.0
  * http://lab.hakim.se/meny
  * MIT licensed
  *

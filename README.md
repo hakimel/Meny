@@ -1,6 +1,6 @@
 # Meny
 
-A three dimensional and space effecient menu. Meny works best in a browser with support for CSS 3D transforms, although it falls back on 2D animation for older browsers. Supports touch events for mobile devices.
+A three dimensional and space effecient menu. Meny works best in browsers with support for CSS 3D transforms, although it falls back on 2D animation for older browsers. Supports touch events for mobile devices.
 
 [Check out the demo page](http://lab.hakim.se/meny/).
 
@@ -76,6 +76,9 @@ The wrapper element (parent of the **menu** and **contents**) is decorated with 
 
 
 ## History
+
+#### 1.0
+- 2D animation fallback (works in IE8+)
 
 #### 0.9
 - Rewrote the JavaScript
