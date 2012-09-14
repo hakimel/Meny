@@ -77,7 +77,8 @@ var Meny = {
 
 			// Ongoing animations (for fallback mode)
 			var menuAnimation,
-				contentsAnimation;
+				contentsAnimation,
+				coverAnimation;
 
 			// Extend the default config object with the passed in 
 			// options
@@ -178,20 +179,26 @@ var Meny = {
 				dom.cover = document.createElement( 'div' );
 
 				// Disabled until a falback fade in animation is added
-				if( supports3DTransforms ) {
-					dom.cover.style.position = 'absolute';
-					dom.cover.style.display = 'block';
-					dom.cover.style.width = '100%';
-					dom.cover.style.height = '100%';
-					dom.cover.style.left = 0;
-					dom.cover.style.top = 0;
-					dom.cover.style.zIndex = 1000;
-					dom.cover.style.visibility = 'hidden';
+				dom.cover.style.position = 'absolute';
+				dom.cover.style.display = 'block';
+				dom.cover.style.width = '100%';
+				dom.cover.style.height = '100%';
+				dom.cover.style.left = 0;
+				dom.cover.style.top = 0;
+				dom.cover.style.zIndex = 1000;
+				dom.cover.style.visibility = 'hidden';
+				dom.cover.style.opacity = 0;
+
+				// Silence unimportant errors in IE8
+				try {
 					dom.cover.style.background = 'rgba( 0, 0, 0, 0.4 )';
 					dom.cover.style.background = '-ms-linear-gradient('+ config.position +', rgba(0,0,0,0.20) 0%,rgba(0,0,0,0.65) 100%)';
 					dom.cover.style.background = '-moz-linear-gradient('+ config.position +', rgba(0,0,0,0.20) 0%,rgba(0,0,0,0.65) 100%)';
 					dom.cover.style.background = '-webkit-linear-gradient('+ config.position +', rgba(0,0,0,0.20) 0%,rgba(0,0,0,0.65) 100%)';
-					dom.cover.style.opacity = 0;
+				}
+				catch( e ) {}
+				
+				if( supports3DTransforms ) {
 					dom.cover.style[ Meny.prefix( 'transition' ) ] = 'all ' + config.transitionDuration +' '+ config.transitionEasing;
 				}
 
@@ -282,10 +289,11 @@ var Meny = {
 
 					Meny.addClass( dom.wrapper, 'meny-active' );
 
+					dom.cover.style.height = dom.contents.scrollHeight + 'px';
+					dom.cover.style.visibility = 'visible';
+
 					// Use transforms and transitions if available...
 					if( supports3DTransforms ) {
-						dom.cover.style.height = dom.contents.scrollHeight + 'px';
-						dom.cover.style.visibility = 'visible';
 						dom.cover.style.opacity = 1;
 
 						dom.contents.style[ Meny.prefix( 'transform' ) ] = contentsTransformOpened;
@@ -297,6 +305,8 @@ var Meny = {
 						menuAnimation = Meny.animate( dom.menu, menuStyleOpened, 500 );
 						contentsAnimation && contentsAnimation.stop();
 						contentsAnimation = Meny.animate( dom.contents, contentsStyleOpened, 500 );
+						coverAnimation && coverAnimation.stop();
+						coverAnimation = Meny.animate( dom.cover, { opacity: 1 }, 500 );
 					}
 				}
 			}
@@ -324,6 +334,8 @@ var Meny = {
 						menuAnimation = Meny.animate( dom.menu, menuStyleClosed, 500 );
 						contentsAnimation && contentsAnimation.stop();
 						contentsAnimation = Meny.animate( dom.contents, contentsStyleClosed, 500 );
+						coverAnimation && coverAnimation.stop();
+						coverAnimation = Meny.animate( dom.cover, { opacity: 0 }, 500, function() { dom.cover.style.visibility = 'hidden'; } );
 					}
 				}
 			}
@@ -505,7 +517,7 @@ var Meny = {
 	/**
 	 * Helper method, changes an element style over time.
 	 */
-	animate: function( element, properties, duration ) {
+	animate: function( element, properties, duration, callback ) {
 		return (function() {
 			// Will hold start/end values for all properties
 			var interpolations = {};
@@ -515,7 +527,7 @@ var Meny = {
 				interpolations[p] = {
 					start: parseFloat( element.style[p] ) || 0,
 					end: parseFloat( properties[p] ),
-					unit: properties[p].match( /px|em|%/gi ) ? properties[p].match( /px|em|%/gi )[0] : ''
+					unit: ( typeof properties[p] === 'string' && properties[p].match( /px|em|%/gi ) ) ? properties[p].match( /px|em|%/gi )[0] : ''
 				};
 			}
 
@@ -538,6 +550,7 @@ var Meny = {
 					animationTimeout = setTimeout( step, 1000 / 60 );
 				}
 				else {
+					callback && callback();
 					stop();
 				}
 			}
@@ -638,3 +651,5 @@ var Meny = {
 		return query;
 	}
 };
+
+if( typeof Date.now !== 'function' ) Date.now = function() { return new Date().getTime(); };
