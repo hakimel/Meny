@@ -1,5 +1,5 @@
 /*!
- * meny 1.0
+ * meny 1.1
  * http://lab.hakim.se/meny
  * MIT licensed
  *
@@ -308,6 +308,8 @@ var Meny = {
 						coverAnimation && coverAnimation.stop();
 						coverAnimation = Meny.animate( dom.cover, { opacity: 1 }, 500 );
 					}
+
+					Meny.dispatchEvent( dom.menu, 'open' );
 				}
 			}
 
@@ -337,6 +339,8 @@ var Meny = {
 						coverAnimation && coverAnimation.stop();
 						coverAnimation = Meny.animate( dom.cover, { opacity: 0 }, 500, function() { dom.cover.style.visibility = 'hidden'; } );
 					}
+
+					Meny.dispatchEvent( dom.menu, 'close' );
 				}
 			}
 
@@ -508,6 +512,16 @@ var Meny = {
 
 				isOpen: function() {
 					return isOpen;
+				},
+
+				/**
+				 * Forward event binding to the menu DOM element.
+				 */
+				addEventListener: function( type, listener ) {
+					dom.menu && Meny.bindEvent( dom.menu, type, listener );
+				},
+				removeEventListener: function( type, listener ) {
+					dom.menu && Meny.unbindEvent( dom.menu, type, listener );
 				}
 			};
 
@@ -635,6 +649,19 @@ var Meny = {
 		}
 		else {
 			element.detachEvent( 'on' + ev, fn );
+		}
+	},
+
+	/**
+	 * Dispatches an event of the specified type from the 
+	 * menu DOM element.
+	 */
+	dispatchEvent: function( element, type, properties ) {
+		if( element ) {
+			var event = document.createEvent( "HTMLEvents", 1, 2 );
+			event.initEvent( type, true, true );
+			Meny.extend( event, properties );
+			element.dispatchEvent( event );
 		}
 	},
 

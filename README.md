@@ -54,7 +54,7 @@ var meny = Meny.create({
 });
 ```
 
-### 4. API
+### 4. API & Events
 A few handy methods API methods are included, you call these on the instance returned by ```Meny.create``` (see above). 
 
 ```javascript
@@ -74,8 +74,29 @@ The wrapper element (parent of the **menu** and **contents**) is decorated with 
 .meny-left
 ```
 
+Instances of Meny dispatch events to notify you of their state:
+
+```javascript
+var meny = Meny.create( ... ) // see 3. Initialize
+
+meny.addEventListener( 'open', function() {
+
+	// do something on open
+
+} );
+
+meny.addEventListener( 'close', function() {
+
+	// do something on close
+
+} );
+```
+
 
 ## History
+
+#### 1.1
+- Instances of Meny now dispatch 'open'/'close' events
 
 #### 1.0
 - 2D animation fallback (works in IE8+)

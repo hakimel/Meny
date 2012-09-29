@@ -101,6 +101,9 @@
 			// meny.close();
 			// meny.isOpen();
 			
+			// Events:
+			// meny.addEventListener( 'open', function(){ console.log( 'open' ); } );
+			// meny.addEventListener( 'close', function(){ console.log( 'close' ); } );
 
 			// Embed an iframe if a URL is passed in
 			if( Meny.getQuery().u && Meny.getQuery().u.match( /^http/gi ) ) {
@@ -111,17 +114,6 @@
 		</script>
 
 		<script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>
-
-		<script>
-		var _gaq = [['_setAccount', 'UA-15240703-1'], ['_trackPageview']];
-		(function(d, t) {
-		var g = d.createElement(t),
-		    s = d.getElementsByTagName(t)[0];
-		g.async = true;
-		g.src = ('https:' == location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-		s.parentNode.insertBefore(g, s);
-		})(document, 'script');
-		</script>
 
 	</body>
 </html>
