@@ -90,9 +90,7 @@ var Meny = {
 			setupMenu();
 			setupContents();
 
-			if( config.threshold ) {
-				bindEvents();
-			}
+			bindEvents();
 
 			/**
 			 * Prepares the transforms for the current positioning 
