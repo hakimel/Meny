@@ -1,5 +1,5 @@
 /*!
- * meny 1.1
+ * meny 1.2
  * http://lab.hakim.se/meny
  * MIT licensed
  *
@@ -90,7 +90,9 @@ var Meny = {
 			setupMenu();
 			setupContents();
 
-			bindEvents();
+			if( config.threshold ) {
+				bindEvents();
+			}
 
 			/**
 			 * Prepares the transforms for the current positioning 
@@ -273,11 +275,15 @@ var Meny = {
 			 * Attaches all input event listeners.
 			 */
 			function bindEvents() {
-				Meny.bindEvent( document, 'mousedown', onMouseDown );
-				Meny.bindEvent( document, 'mouseup', onMouseUp );
-				Meny.bindEvent( document, 'mousemove', onMouseMove );
-				Meny.bindEvent( document, 'touchstart', onTouchStart );
-				Meny.bindEvent( document, 'touchend', onTouchEnd );
+				if( 'ontouchstart' in window ) {
+					Meny.bindEvent( document, 'touchstart', onTouchStart );
+					Meny.bindEvent( document, 'touchend', onTouchEnd );
+				}
+				else {
+					Meny.bindEvent( document, 'mousedown', onMouseDown );
+					Meny.bindEvent( document, 'mouseup', onMouseUp );
+					Meny.bindEvent( document, 'mousemove', onMouseMove );
+				}
 			}
 
 			/**
@@ -421,17 +427,21 @@ var Meny = {
 
 				// Check for swipe gestures in any direction
 				
-				if( touchMoveX < touchStartX - config.threshold ) {
-					swipeMethod = onSwipeRight;
+				if( Math.abs( touchMoveX - touchStartX ) > Math.abs( touchMoveY - touchStartY ) ) {
+					if( touchMoveX < touchStartX - config.threshold ) {
+						swipeMethod = onSwipeRight;
+					}
+					else if( touchMoveX > touchStartX + config.threshold ) {
+						swipeMethod = onSwipeLeft;
+					}
 				}
-				else if( touchMoveX > touchStartX + config.threshold ) {
-					swipeMethod = onSwipeLeft;
-				}
-				else if( touchMoveY < touchStartY - config.threshold ) {
-					swipeMethod = onSwipeDown;
-				}
-				if( touchMoveY > touchStartY + config.threshold ) {
-					swipeMethod = onSwipeUp;
+				else {
+					if( touchMoveY < touchStartY - config.threshold ) {
+						swipeMethod = onSwipeDown;
+					}
+					else if( touchMoveY > touchStartY + config.threshold ) {
+						swipeMethod = onSwipeUp;
+					}
 				}
 
 				if( swipeMethod && swipeMethod() ) {

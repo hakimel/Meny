@@ -95,6 +95,10 @@ meny.addEventListener( 'close', function() {
 
 ## History
 
+#### 1.2
+- Improvements to touch interaction
+- Setting threshold to 0 disables hover/touch-to-open
+
 #### 1.1
 - Instances of Meny now dispatch 'open'/'close' events
 
