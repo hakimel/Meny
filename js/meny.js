@@ -277,11 +277,10 @@ var Meny = {
 					Meny.bindEvent( document, 'touchstart', onTouchStart );
 					Meny.bindEvent( document, 'touchend', onTouchEnd );
 				}
-				else {
-					Meny.bindEvent( document, 'mousedown', onMouseDown );
-					Meny.bindEvent( document, 'mouseup', onMouseUp );
-					Meny.bindEvent( document, 'mousemove', onMouseMove );
-				}
+
+				Meny.bindEvent( document, 'mousedown', onMouseDown );
+				Meny.bindEvent( document, 'mouseup', onMouseUp );
+				Meny.bindEvent( document, 'mousemove', onMouseMove );
 			}
 
 			/**
