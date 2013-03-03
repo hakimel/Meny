@@ -1,6 +1,6 @@
 
 /**
- * The CSS in this file is for styling the demo page, 
+ * The CSS in this file is for styling the demo page,
  * Meny's critical styles (such as transforms) are applied
  * via JavaScript.
  *
@@ -14,7 +14,7 @@
 	padding: 0;
 }
 
-html, 
+html,
 body {
 	height: 100%;
 	overflow: hidden;
@@ -44,7 +44,7 @@ a {
 		color: #f76f76;
 	}
 
-h1, 
+h1,
 h2 {
 	font-size: 24px;
 }
@@ -85,10 +85,10 @@ h2 {
 
 	border: 10px solid transparent;
 
-	-webkit-transition: opacity 0.4s ease 0.4s; 
-	   -moz-transition: opacity 0.4s ease 0.4s; 
-	    -ms-transition: opacity 0.4s ease 0.4s; 
-	     -o-transition: opacity 0.4s ease 0.4s; 
+	-webkit-transition: opacity 0.4s ease 0.4s;
+	   -moz-transition: opacity 0.4s ease 0.4s;
+	    -ms-transition: opacity 0.4s ease 0.4s;
+	     -o-transition: opacity 0.4s ease 0.4s;
 	        transition: opacity 0.4s ease 0.4s;
 }
 	.meny-left .meny-arrow {
@@ -118,10 +118,10 @@ h2 {
 	.meny-active .meny-arrow {
 		opacity: 0;
 
-		-webkit-transition: opacity 0.2s ease; 
-		   -moz-transition: opacity 0.2s ease; 
-		    -ms-transition: opacity 0.2s ease; 
-		     -o-transition: opacity 0.2s ease; 
+		-webkit-transition: opacity 0.2s ease;
+		   -moz-transition: opacity 0.2s ease;
+		    -ms-transition: opacity 0.2s ease;
+		     -o-transition: opacity 0.2s ease;
 		        transition: opacity 0.2s ease;
 	}
 

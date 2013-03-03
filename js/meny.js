@@ -32,7 +32,7 @@ var Meny = {
 										'msPerspective' in document.body.style ||
 										'OPerspective' in document.body.style ||
 										'perspective' in document.body.style;
-			
+
 			// Default options, gets extended by passed in arguments
 			var config = {
 				width: 300,
@@ -80,7 +80,7 @@ var Meny = {
 				contentsAnimation,
 				coverAnimation;
 
-			// Extend the default config object with the passed in 
+			// Extend the default config object with the passed in
 			// options
 			Meny.extend( config, options );
 
@@ -93,7 +93,7 @@ var Meny = {
 			bindEvents();
 
 			/**
-			 * Prepares the transforms for the current positioning 
+			 * Prepares the transforms for the current positioning
 			 * settings.
 			 */
 			function setupPositions() {
@@ -163,7 +163,7 @@ var Meny = {
 			 * The wrapper element holds the menu and contents.
 			 */
 			function setupWrapper() {
-				// Add a class to allow for custom styles based on 
+				// Add a class to allow for custom styles based on
 				// position
 				Meny.addClass( dom.wrapper, 'meny-' + config.position );
 
@@ -172,7 +172,7 @@ var Meny = {
 			}
 
 			/**
-			 * The cover is used to obfuscate the contents while 
+			 * The cover is used to obfuscate the contents while
 			 * Meny is open.
 			 */
 			function setupCover() {
@@ -197,7 +197,7 @@ var Meny = {
 					dom.cover.style.background = '-webkit-linear-gradient('+ config.position +', rgba(0,0,0,0.20) 0%,rgba(0,0,0,0.65) 100%)';
 				}
 				catch( e ) {}
-				
+
 				if( supports3DTransforms ) {
 					dom.cover.style[ Meny.prefix( 'transition' ) ] = 'all ' + config.transitionDuration +' '+ config.transitionEasing;
 				}
@@ -251,7 +251,7 @@ var Meny = {
 			}
 
 			/**
-			 * The contents element which gets pushed aside while 
+			 * The contents element which gets pushed aside while
 			 * Meny is open.
 			 */
 			function setupContents() {
@@ -356,7 +356,7 @@ var Meny = {
 			}
 
 			function onMouseMove( event ) {
-				// Prevent opening/closing when mouse is down since 
+				// Prevent opening/closing when mouse is down since
 				// the user may be selecting text
 				if( !isMouseDown ) {
 					var x = event.clientX - indentX,
@@ -424,7 +424,7 @@ var Meny = {
 				var swipeMethod = null;
 
 				// Check for swipe gestures in any direction
-				
+
 				if( Math.abs( touchMoveX - touchStartX ) > Math.abs( touchMoveY - touchStartY ) ) {
 					if( touchMoveX < touchStartX - config.threshold ) {
 						swipeMethod = onSwipeRight;
@@ -461,7 +461,7 @@ var Meny = {
 									( config.position === POSITION_R && touchStartX < dom.wrapper.offsetWidth - config.width ) ||
 									( config.position === POSITION_B && touchStartY < dom.wrapper.offsetHeight - config.height ) ||
 									( config.position === POSITION_L && touchStartX < config.width );
-				
+
 				if( isOverContent ) {
 					close();
 				}
@@ -511,11 +511,11 @@ var Meny = {
 				}
 			}
 
-			
+
 			/// API: ///////////////////////////////////
-			
+
 			return {
-				open: open, 
+				open: open,
 				close: close,
 
 				isOpen: function() {
@@ -585,9 +585,9 @@ var Meny = {
 			// Starts the animation
 			step();
 
-			
+
 			/// API: ///////////////////////////////////
-			
+
 			return {
 				stop: stop
 			};
@@ -595,7 +595,7 @@ var Meny = {
 	},
 
 	/**
-	 * Extend object a with the properties of object b. 
+	 * Extend object a with the properties of object b.
 	 * If there's a conflict, object b takes precedence.
 	 */
 	extend: function( a, b ) {
@@ -661,7 +661,7 @@ var Meny = {
 	},
 
 	/**
-	 * Dispatches an event of the specified type from the 
+	 * Dispatches an event of the specified type from the
 	 * menu DOM element.
 	 */
 	dispatchEvent: function( element, type, properties ) {
