@@ -103,6 +103,7 @@ meny.addEventListener( 'close', function() {
 
 #### 1.3.0
 - Add ```touch``` and ```mouse``` config options
+- Fix error with tap to close when meny is on the left
 
 #### 1.2.0
 - Improvements to touch interaction
