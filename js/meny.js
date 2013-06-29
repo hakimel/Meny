@@ -465,7 +465,7 @@ var Meny = {
 				var isOverContent = ( config.position === POSITION_T && touchStartY > config.height ) ||
 									( config.position === POSITION_R && touchStartX < dom.wrapper.offsetWidth - config.width ) ||
 									( config.position === POSITION_B && touchStartY < dom.wrapper.offsetHeight - config.height ) ||
-									( config.position === POSITION_L && touchStartX < config.width );
+									( config.position === POSITION_L && touchStartX > config.width );
 
 				if( isOverContent ) {
 					close();
