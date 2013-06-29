@@ -50,7 +50,13 @@ var meny = Meny.create({
 	height: 200,
 
 	// The width of the menu (when using left/right position)
-	width: 260
+	width: 260,
+
+	// Use mouse movement to automatically open/close
+	mouse: true,
+
+	// Use touch swipe events to open/close
+	touch: true
 });
 ```
 
@@ -95,31 +101,34 @@ meny.addEventListener( 'close', function() {
 
 ## History
 
-#### 1.2
+#### 1.3.0
+- Add ```touch``` and ```mouse``` config options
+
+#### 1.2.0
 - Improvements to touch interaction
 - Setting threshold to 0 disables hover/touch-to-open
 
-#### 1.1
+#### 1.1.0
 - Instances of Meny now dispatch 'open'/'close' events
 
-#### 1.0
+#### 1.0.0
 - 2D animation fallback (works in IE8+)
 
-#### 0.9
+#### 0.9.0
 - Rewrote the JavaScript
 - All core styles/transforms are set via JavaScript
 - Made many options available at initialization
 - New JavaScript fallback using internal animation method
 
-#### 0.3
+#### 0.3.0
 - Fallback mode that doesn't rely on transforms
 
-#### 0.2
+#### 0.2.0
 - Cleaned up CSS
 - Fix bug where original events for taps on anchors were blocked
 - It's now possible to reach the meny via tapping as well as swiping
 
-#### 0.1
+#### 0.1.0
 - Initial release
 
 ## License

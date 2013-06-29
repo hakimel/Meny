@@ -1,5 +1,5 @@
 /*!
- * meny 1.2
+ * meny 1.3
  * http://lab.hakim.se/meny
  * MIT licensed
  *
@@ -41,7 +41,9 @@ var Meny = {
 				threshold: 40,
 				overlap: 6,
 				transitionDuration: '0.5s',
-				transitionEasing: 'ease'
+				transitionEasing: 'ease',
+				mouse: true,
+				touch: true
 			};
 
 			// Cache references to DOM elements
@@ -273,14 +275,18 @@ var Meny = {
 			 * Attaches all input event listeners.
 			 */
 			function bindEvents() {
-				if( 'ontouchstart' in window ) {
-					Meny.bindEvent( document, 'touchstart', onTouchStart );
-					Meny.bindEvent( document, 'touchend', onTouchEnd );
+				if( config.touch ) {
+					if( 'ontouchstart' in window ) {
+						Meny.bindEvent( document, 'touchstart', onTouchStart );
+						Meny.bindEvent( document, 'touchend', onTouchEnd );
+					}
 				}
 
-				Meny.bindEvent( document, 'mousedown', onMouseDown );
-				Meny.bindEvent( document, 'mouseup', onMouseUp );
-				Meny.bindEvent( document, 'mousemove', onMouseMove );
+				if( config.mouse ) {
+					Meny.bindEvent( document, 'mousedown', onMouseDown );
+					Meny.bindEvent( document, 'mouseup', onMouseUp );
+					Meny.bindEvent( document, 'mousemove', onMouseMove );
+				}
 			}
 
 			/**
