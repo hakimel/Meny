@@ -82,17 +82,25 @@ var Meny = {
 				contentsAnimation,
 				coverAnimation;
 
-			// Extend the default config object with the passed in
-			// options
-			Meny.extend( config, options );
+			configure( options );
 
-			setupPositions();
-			setupWrapper();
-			setupCover();
-			setupMenu();
-			setupContents();
+			/**
+			 * Initializes Meny with the specified user options,
+			 * may be called multiple times as configuration changes.
+			 */
+			function configure( o ) {
+				// Extend the default config object with the passed in
+				// options
+				Meny.extend( config, o );
 
-			bindEvents();
+				setupPositions();
+				setupWrapper();
+				setupCover();
+				setupMenu();
+				setupContents();
+
+				bindEvents();
+			}
 
 			/**
 			 * Prepares the transforms for the current positioning
@@ -178,6 +186,10 @@ var Meny = {
 			 * Meny is open.
 			 */
 			function setupCover() {
+				if( dom.cover ) {
+					dom.cover.parentNode.removeChild( dom.cover );
+				}
+
 				dom.cover = document.createElement( 'div' );
 
 				// Disabled until a falback fade in animation is added
@@ -275,10 +287,15 @@ var Meny = {
 			 * Attaches all input event listeners.
 			 */
 			function bindEvents() {
-				if( config.touch ) {
-					if( 'ontouchstart' in window ) {
+
+				if( 'ontouchstart' in window ) {
+					if( config.touch ) {
 						Meny.bindEvent( document, 'touchstart', onTouchStart );
 						Meny.bindEvent( document, 'touchend', onTouchEnd );
+					}
+					else {
+						Meny.unbindEvent( document, 'touchstart', onTouchStart );
+						Meny.unbindEvent( document, 'touchend', onTouchEnd );
 					}
 				}
 
@@ -286,6 +303,11 @@ var Meny = {
 					Meny.bindEvent( document, 'mousedown', onMouseDown );
 					Meny.bindEvent( document, 'mouseup', onMouseUp );
 					Meny.bindEvent( document, 'mousemove', onMouseMove );
+				}
+				else {
+					Meny.unbindEvent( document, 'mousedown', onMouseDown );
+					Meny.unbindEvent( document, 'mouseup', onMouseUp );
+					Meny.unbindEvent( document, 'mousemove', onMouseMove );
 				}
 			}
 
@@ -520,6 +542,8 @@ var Meny = {
 			/// API: ///////////////////////////////////
 
 			return {
+				configure: configure,
+
 				open: open,
 				close: close,
 

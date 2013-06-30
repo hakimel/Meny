@@ -61,9 +61,11 @@ var meny = Meny.create({
 ```
 
 ### 4. API & Events
-A few handy methods API methods are included, you call these on the instance returned by ```Meny.create``` (see above). 
+A few handy methods API methods are included, you call these on the instance returned by ```Meny.create``` (see above).
 
 ```javascript
+meny.configure({ mouse: false }); // change settings after initialization
+
 meny.open();
 
 meny.close();
@@ -104,6 +106,7 @@ meny.addEventListener( 'close', function() {
 #### 1.3.0
 - Add ```touch``` and ```mouse``` config options
 - Fix error with tap to close when meny is on the left
+- Add ```configure``` API method for changing settings at runtime
 
 #### 1.2.0
 - Improvements to touch interaction
