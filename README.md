@@ -51,6 +51,18 @@ var meny = Meny.create({
 
 	// The width of the menu (when using left/right position)
 	width: 260,
+	
+	// The mouse distance from menu position which can trigger menu to open.
+	threshold: 40,
+	
+	// Width(in px) of the thin line you see on screen when menu is in closed position.
+	overlap: 6,
+	
+	// The total time taken by menu animation.
+	transitionDuration: '0.5s',
+	
+	// Transition style for menu animations
+	transitionEasing: 'ease',
 
 	// Use mouse movement to automatically open/close
 	mouse: true,
