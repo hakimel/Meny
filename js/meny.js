@@ -1,5 +1,5 @@
 /*!
- * meny 1.3
+ * meny 1.4
  * http://lab.hakim.se/meny
  * MIT licensed
  *
@@ -77,7 +77,8 @@ var Meny = {
 				contentsStyleClosed,
 				contentsStyleOpened;
 
-			var originalStyles = {}, addedEventListeners = [];
+			var originalStyles = {},
+				addedEventListeners = [];
 
 			// Ongoing animations (for fallback mode)
 			var menuAnimation,
@@ -178,7 +179,7 @@ var Meny = {
 				// Add a class to allow for custom styles based on
 				// position
 				Meny.addClass( dom.wrapper, 'meny-' + config.position );
-				
+
 				originalStyles.wrapper = dom.wrapper.style.cssText;
 
 				dom.wrapper.style[ Meny.prefix( 'perspective' ) ] = '800px';
@@ -253,8 +254,8 @@ var Meny = {
 						style.height = '100%';
 						break;
 				}
-				originalStyles.menu = style.cssText;
 
+				originalStyles.menu = style.cssText;
 
 				style.position = 'fixed';
 				style.display = 'block';
@@ -368,7 +369,6 @@ var Meny = {
 
 					// Use transforms and transitions if available...
 					if( supports3DTransforms ) {
-
 						// 'webkitAnimationEnd oanimationend msAnimationEnd animationend transitionend'
 						Meny.bindEventOnce( dom.wrapper, 'transitionend', function() {
 							Meny.dispatchEvent( dom.menu, 'closed' );
@@ -396,6 +396,10 @@ var Meny = {
 				}
 			}
 
+			/**
+			 * Unbinds Meny and resets the DOM to the state it
+			 * was at before Meny was initialized.
+			 */
 			function destroy() {
 				dom.wrapper.style.cssText = originalStyles.wrapper
 				dom.menu.style.cssText = originalStyles.menu;
@@ -410,9 +414,11 @@ var Meny = {
 				Meny.unbindEvent( document, 'mousedown', onMouseDown );
 				Meny.unbindEvent( document, 'mouseup', onMouseUp );
 				Meny.unbindEvent( document, 'mousemove', onMouseMove );
-				for(var i in addedEventListeners) {
+
+				for( var i in addedEventListeners ) {
 					this.removeEventListener( addedEventListeners[i][0], addedEventListeners[i][1] );
 				}
+
 				addedEventListeners = [];
 			}
 
@@ -734,12 +740,11 @@ var Meny = {
 
 	bindEventOnce: function ( element, ev, fn ) {
 		var me = this;
-		var wrappedFn;
-		wrappedFn = function() {
-			me.unbindEvent ( element, ev, wrappedFn );
-			fn.apply(this, arguments);
+		var listener = function() {
+			me.unbindEvent( element, ev, listener );
+			fn.apply( this, arguments );
 		};
-		me.bindEvent ( element, ev, wrappedFn );
+		this.bindEvent( element, ev, listener );
 	},
 
 	/**

@@ -51,16 +51,16 @@ var meny = Meny.create({
 
 	// The width of the menu (when using left/right position)
 	width: 260,
-	
+
 	// The mouse distance from menu position which can trigger menu to open.
 	threshold: 40,
-	
+
 	// Width(in px) of the thin line you see on screen when menu is in closed position.
 	overlap: 6,
-	
+
 	// The total time taken by menu animation.
 	transitionDuration: '0.5s',
-	
+
 	// Transition style for menu animations
 	transitionEasing: 'ease',
 
@@ -128,6 +128,10 @@ meny.addEventListener( 'closed', function() {
 
 
 ## History
+
+#### 1.4.0
+- Adds `opened` and `closed` events
+- Adds `destroy` API method
 
 #### 1.3.0
 - Add ```touch``` and ```mouse``` config options
