@@ -83,6 +83,8 @@ meny.open();
 meny.close();
 
 meny.isOpen(); // true/false
+
+meny.destroy(); // revert original DOM state, unbind events
 ```
 
 The wrapper element (parent of the **menu** and **contents**) is decorated with classes based on its state:
@@ -108,6 +110,18 @@ meny.addEventListener( 'open', function() {
 meny.addEventListener( 'close', function() {
 
 	// do something on close
+
+} );
+
+meny.addEventListener( 'opened', function() {
+
+	// do something right after meny is opened and transitions finished
+
+} );
+
+meny.addEventListener( 'closed', function() {
+
+	// do something right after meny is closed and transitions finished
 
 } );
 ```
