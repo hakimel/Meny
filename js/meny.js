@@ -631,13 +631,13 @@ var Meny = {
 				};
 			}
 
-			var animationStartTime = Date.now(),
+			var animationStartTime = 1 * new Date(),
 				animationTimeout;
 
 			// Takes one step forward in the animation
 			function step() {
 				// Ease out
-				var progress = 1 - Math.pow( 1 - ( ( Date.now() - animationStartTime ) / duration ), 5 );
+				var progress = 1 - Math.pow( 1 - ( ( 1 * new Date() - animationStartTime ) / duration ), 5 );
 
 				// Set style to interpolated value
 				for( var p in interpolations ) {
@@ -773,5 +773,3 @@ var Meny = {
 		return query;
 	}
 };
-
-if( typeof Date.now !== 'function' ) Date.now = function() { return new Date().getTime(); };
