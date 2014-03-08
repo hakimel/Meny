@@ -1,4 +1,3 @@
-
 /**
  * The CSS in this file is for styling the demo page,
  * Meny's critical styles (such as transforms) are applied
@@ -136,6 +135,7 @@ h2 {
 	overflow-y: auto;
 
 	-webkit-overflow-scrolling: touch;
+	-webkit-transform-style: preserve-3d;
 
 	-webkit-box-sizing: border-box;
 	   -moz-box-sizing: border-box;
