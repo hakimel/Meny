@@ -5,6 +5,18 @@
  *
  * Created by Hakim El Hattab (http://hakim.se, @hakimel)
  */
+
+(function (root, factory) {
+    if (typeof define === 'function' && define.amd) 
+        // AMD. Register as an anonymous module.
+        define(factory);
+    } else {
+        // Browser globals
+        root.Meny = factory();
+    }
+}(this, function () {
+
+//intentinally no indent
 var Meny = {
 	// Creates a new instance of Meny
 	create: function( options ) {
@@ -775,3 +787,6 @@ var Meny = {
 };
 
 if( typeof Date.now !== 'function' ) Date.now = function() { return new Date().getTime(); };
+
+return Meny;
+}));
