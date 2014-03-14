@@ -42,6 +42,7 @@ var Meny = {
 				overlap: 6,
 				transitionDuration: '0.5s',
 				transitionEasing: 'ease',
+				gradient: 'rgba(0,0,0,0.20) 0%, rgba(0,0,0,0.65) 100%)',
 				mouse: true,
 				touch: true
 			};
@@ -211,9 +212,9 @@ var Meny = {
 				// Silence unimportant errors in IE8
 				try {
 					dom.cover.style.background = 'rgba( 0, 0, 0, 0.4 )';
-					dom.cover.style.background = '-ms-linear-gradient('+ config.position +', rgba(0,0,0,0.20) 0%,rgba(0,0,0,0.65) 100%)';
-					dom.cover.style.background = '-moz-linear-gradient('+ config.position +', rgba(0,0,0,0.20) 0%,rgba(0,0,0,0.65) 100%)';
-					dom.cover.style.background = '-webkit-linear-gradient('+ config.position +', rgba(0,0,0,0.20) 0%,rgba(0,0,0,0.65) 100%)';
+					dom.cover.style.background = '-ms-linear-gradient('+ config.position +','+ config.gradient;
+					dom.cover.style.background = '-moz-linear-gradient('+ config.position +','+ config.gradient;
+					dom.cover.style.background = '-webkit-linear-gradient('+ config.position +','+ config.gradient;
 				}
 				catch( e ) {}
 

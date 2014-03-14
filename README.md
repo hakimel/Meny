@@ -64,6 +64,9 @@ var meny = Meny.create({
 	// Transition style for menu animations
 	transitionEasing: 'ease',
 
+	// Gradient overlay for the contents
+	gradient: 'rgba(0,0,0,0.20) 0%, rgba(0,0,0,0.65) 100%)',
+
 	// Use mouse movement to automatically open/close
 	mouse: true,
 
