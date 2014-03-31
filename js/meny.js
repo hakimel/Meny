@@ -127,14 +127,16 @@ var Meny = {
 			function setupPositions() {
 				menuTransformOpened = '';
 				contentsTransformClosed = '';
+        menuAngle = config.angle;
+        contentsAngle = config.angle / -2;
 
 				switch( config.position ) {
 					case POSITION_T:
 						// Primary transform:
 						menuTransformOrigin = '50% 0%';
-						menuTransformClosed = 'rotateX( 30deg ) translateY( -100% ) translateY( '+ config.overlap +'px )';
+						menuTransformClosed = 'rotateX( ' + menuAngle + 'deg ) translateY( -100% ) translateY( '+ config.overlap +'px )';
 						contentsTransformOrigin = '50% 0';
-						contentsTransformOpened = 'translateY( '+ config.height +'px ) rotateX( -15deg )';
+						contentsTransformOpened = 'translateY( '+ config.height +'px ) rotateX( ' + contentsAngle + 'deg )';
 
 						// Position fallback:
 						menuStyleClosed = { top: '-' + (config.height-config.overlap) + 'px' };
@@ -146,9 +148,9 @@ var Meny = {
 					case POSITION_R:
 						// Primary transform:
 						menuTransformOrigin = '100% 50%';
-						menuTransformClosed = 'rotateY( 30deg ) translateX( 100% ) translateX( -2px ) scale( 1.01 )';
+						menuTransformClosed = 'rotateY( ' + menuAngle + 'deg ) translateX( 100% ) translateX( -2px ) scale( 1.01 )';
 						contentsTransformOrigin = '100% 50%';
-						contentsTransformOpened = 'translateX( -'+ config.width +'px ) rotateY( -15deg )';
+						contentsTransformOpened = 'translateX( -'+ config.width +'px ) rotateY( ' + contentsAngle + 'deg )';
 
 						// Position fallback:
 						menuStyleClosed = { right: '-' + (config.width-config.overlap) + 'px' };
@@ -160,9 +162,9 @@ var Meny = {
 					case POSITION_B:
 						// Primary transform:
 						menuTransformOrigin = '50% 100%';
-						menuTransformClosed = 'rotateX( -30deg ) translateY( 100% ) translateY( -'+ config.overlap +'px )';
+						menuTransformClosed = 'rotateX( ' + -menuAngle + 'deg ) translateY( 100% ) translateY( -'+ config.overlap +'px )';
 						contentsTransformOrigin = '50% 100%';
-						contentsTransformOpened = 'translateY( -'+ config.height +'px ) rotateX( 15deg )';
+						contentsTransformOpened = 'translateY( -'+ config.height +'px ) rotateX( ' + -contentsAngle + 'deg )';
 
 						// Position fallback:
 						menuStyleClosed = { bottom: '-' + (config.height-config.overlap) + 'px' };
@@ -174,9 +176,9 @@ var Meny = {
 					default:
 						// Primary transform:
 						menuTransformOrigin = '100% 50%';
-						menuTransformClosed = 'translateX( -100% ) translateX( '+ config.overlap +'px ) scale( 1.01 ) rotateY( -30deg )';
+						menuTransformClosed = 'translateX( -100% ) translateX( '+ config.overlap +'px ) scale( 1.01 ) rotateY( ' + -menuAngle + 'deg )';
 						contentsTransformOrigin = '0 50%';
-						contentsTransformOpened = 'translateX( '+ config.width +'px ) rotateY( 15deg )';
+						contentsTransformOpened = 'translateX( '+ config.width +'px ) rotateY( ' + -contentsAngle + 'deg )';
 
 						// Position fallback:
 						menuStyleClosed = { left: '-' + (config.width-config.overlap) + 'px' };
