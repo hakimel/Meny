@@ -54,7 +54,7 @@ var Meny = {
 				height: 300,
 				position: POSITION_L,
 				threshold: 40,
-        angle: 30,
+				angle: 30,
 				overlap: 6,
 				transitionDuration: '0.5s',
 				transitionEasing: 'ease',
@@ -128,8 +128,8 @@ var Meny = {
 			function setupPositions() {
 				menuTransformOpened = '';
 				contentsTransformClosed = '';
-        menuAngle = config.angle;
-        contentsAngle = config.angle / -2;
+				menuAngle = config.angle;
+				contentsAngle = config.angle / -2;
 
 				switch( config.position ) {
 					case POSITION_T:
