@@ -79,6 +79,8 @@ var Meny = {
 				touchMoveX = null,
 				touchMoveY = null,
 				isOpen = false,
+				_stayOpen = false,
+				_stayClose = false,
 				isMouseDown = false;
 
 			// Precalculated transform and style states
@@ -343,7 +345,7 @@ var Meny = {
 			 * Expands the menu.
 			 */
 			function open() {
-				if( !isOpen ) {
+				if( !isOpen && !_stayClose ) {
 					isOpen = true;
 
 					Meny.addClass( dom.wrapper, 'meny-active' );
@@ -381,7 +383,7 @@ var Meny = {
 			 * Collapses the menu.
 			 */
 			function close() {
-				if( isOpen ) {
+				if( isOpen && !_stayOpen ) {
 					isOpen = false;
 
 					Meny.removeClass( dom.wrapper, 'meny-active' );
@@ -604,6 +606,38 @@ var Meny = {
 				}
 			}
 
+			function stayOpen(state) {
+				if( typeof state !== 'undefined' ) {
+					_stayOpen = state;
+				}
+				else {
+					_stayOpen = true;
+				}
+
+				//revert stay close to false state
+				if( _stayClose ) {
+					_stayClose = false;
+				}
+
+				return true;
+			}
+
+			function stayClose(state) {
+				if( typeof state !== 'undefined' ) {
+					_stayClose = state;
+				}
+				else {
+					_stayClose = true;
+				}
+
+				//revert stay open to false state
+				if( _stayOpen ) {
+					_stayOpen = false;
+				}
+
+				return true;
+			}
+
 
 			/// API: ///////////////////////////////////
 
@@ -613,6 +647,9 @@ var Meny = {
 				open: open,
 				close: close,
 				destroy: destroy,
+
+				stayOpen: stayOpen,
+				stayClose: stayClose,
 
 				isOpen: function() {
 					return isOpen;

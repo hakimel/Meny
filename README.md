@@ -88,6 +88,10 @@ meny.open();
 
 meny.close();
 
+meny.stayOpen(); // always open, pass a boolean parameter 'false' to revert
+
+meny.stayClose(); // always close, pass a boolean parameter 'false' to revert
+
 meny.isOpen(); // true/false
 
 meny.destroy(); // revert original DOM state, unbind events
