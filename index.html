@@ -18,7 +18,52 @@
 
 	<body>
 
-		<div class="meny">
+		<div class="meny left">
+			<h2>More Experiments</h2>
+			<ul>
+				<li><a href="http://lab.hakim.se/avgrund/">Avgrund</a></li>
+				<li><a href="http://lab.hakim.se/radar/">Radar</a></li>
+				<li><a href="http://lab.hakim.se/forkit-js/">forkit.js</a></li>
+				<li><a href="http://lab.hakim.se/scroll-effects/">stroll.js</a></li>
+				<li><a href="http://lab.hakim.se/zoom-js">zoom.js</a></li>
+				<li><a href="http://lab.hakim.se/reveal-js">reveal.js</a></li>
+				<li><a href="http://itunes.apple.com/us/app/sinuous/id543097218">Sinuous for iOS</a></li>
+				<li><a href="http://hakim.se/experiments/css/domtree/">DOM Tree</a></li>
+				<li><a href="http://hakim.se/experiments/css/holobox/">Holobox</a></li>
+				<li><a href="http://hakim.se/experiments/html5/404/netmag.html">404</a></li>
+			</ul>
+		</div>
+		<div class="meny right">
+			<h2>More Experiments</h2>
+			<ul>
+				<li><a href="http://lab.hakim.se/avgrund/">Avgrund</a></li>
+				<li><a href="http://lab.hakim.se/radar/">Radar</a></li>
+				<li><a href="http://lab.hakim.se/forkit-js/">forkit.js</a></li>
+				<li><a href="http://lab.hakim.se/scroll-effects/">stroll.js</a></li>
+				<li><a href="http://lab.hakim.se/zoom-js">zoom.js</a></li>
+				<li><a href="http://lab.hakim.se/reveal-js">reveal.js</a></li>
+				<li><a href="http://itunes.apple.com/us/app/sinuous/id543097218">Sinuous for iOS</a></li>
+				<li><a href="http://hakim.se/experiments/css/domtree/">DOM Tree</a></li>
+				<li><a href="http://hakim.se/experiments/css/holobox/">Holobox</a></li>
+				<li><a href="http://hakim.se/experiments/html5/404/netmag.html">404</a></li>
+			</ul>
+		</div>
+		<div class="meny top">
+			<h2>More Experiments</h2>
+			<ul>
+				<li><a href="http://lab.hakim.se/avgrund/">Avgrund</a></li>
+				<li><a href="http://lab.hakim.se/radar/">Radar</a></li>
+				<li><a href="http://lab.hakim.se/forkit-js/">forkit.js</a></li>
+				<li><a href="http://lab.hakim.se/scroll-effects/">stroll.js</a></li>
+				<li><a href="http://lab.hakim.se/zoom-js">zoom.js</a></li>
+				<li><a href="http://lab.hakim.se/reveal-js">reveal.js</a></li>
+				<li><a href="http://itunes.apple.com/us/app/sinuous/id543097218">Sinuous for iOS</a></li>
+				<li><a href="http://hakim.se/experiments/css/domtree/">DOM Tree</a></li>
+				<li><a href="http://hakim.se/experiments/css/holobox/">Holobox</a></li>
+				<li><a href="http://hakim.se/experiments/html5/404/netmag.html">404</a></li>
+			</ul>
+		</div>
+		<div class="meny bottom">
 			<h2>More Experiments</h2>
 			<ul>
 				<li><a href="http://lab.hakim.se/avgrund/">Avgrund</a></li>
@@ -34,7 +79,10 @@
 			</ul>
 		</div>
 
-		<div class="meny-arrow"></div>
+		<div class="meny-arrow left"></div>
+		<div class="meny-arrow right"></div>
+		<div class="meny-arrow top"></div>
+		<div class="meny-arrow bottom"></div>
 
 		<div class="contents">
 			<article>
@@ -43,15 +91,11 @@
 					A three dimensional and space efficient menu.
 				</p>
 				<p>
-					Move your mouse towards the arrow &mdash; or swipe in from the arrow if you're on a touch device &mdash; to open.
+					Move your mouse towards one of the arrows &mdash; or swipe in from the arrows if you're on a touch device &mdash; to open.
 					Test it with any page by appending a URL, like so: <a href="http://lab.hakim.se/meny/?u=http://hakim.se">lab.hakim.se/meny/?u=http://hakim.se.</a>
 				</p>
 				<p>
-					Meny can be positioned on any side of the screen: <br>
-					 <a href="http://lab.hakim.se/meny/?p=top">top</a>
-					 - <a href="http://lab.hakim.se/meny/?p=right">right</a>
-					 - <a href="http://lab.hakim.se/meny/?p=bottom">bottom</a>
-					 - <a href="http://lab.hakim.se/meny/?p=left">left</a>
+					Meny can be positioned on any side of the screen and you can even have multiple per page!
 				</p>
 				<p>
 					Instructions and download at <a href="http://github.com/hakimel/meny">github.com/hakimel/meny</a>.
@@ -75,32 +119,33 @@
 
 		<script src="js/meny.js"></script>
 		<script>
-			// Create an instance of Meny
-			var meny = Meny.create({
-				// The element that will be animated in from off screen
-				menuElement: document.querySelector( '.meny' ),
-
-				// The contents that gets pushed aside while Meny is active
-				contentsElement: document.querySelector( '.contents' ),
-
-				// [optional] The alignment of the menu (top/right/bottom/left)
-				position: Meny.getQuery().p || 'left',
-
-				// [optional] The height of the menu (when using top/bottom position)
-				height: 200,
-
-				// [optional] The width of the menu (when using left/right position)
-				width: 260,
-
-				// [optional] Distance from mouse (in pixels) when menu should open
-				threshold: 40,
-
-				// [optional] Use mouse movement to automatically open/close
-				mouse: true,
-
-				// [optional] Use touch swipe events to open/close
-				touch: true
-			});
+            ['left','right','top','bottom'].forEach(function(pos) {
+                Meny.create({
+                	// The element that will be animated in from off screen
+                	menuElement: document.querySelector( '.meny.' + pos ),
+                
+                	// The contents that gets pushed aside while Meny is active
+                	contentsElement: document.querySelector( '.contents' ),
+                
+                	// [optional] The alignment of the menu (top/right/bottom/left)
+                	position: pos,
+                
+                	// [optional] The height of the menu (when using top/bottom position)
+                	height: 200,
+                
+                	// [optional] The width of the menu (when using left/right position)
+                	width: 260,
+                
+                	// [optional] Distance from mouse (in pixels) when menu should open
+                	threshold: 40,
+                
+                	// [optional] Use mouse movement to automatically open/close
+                	mouse: true,
+                
+                	// [optional] Use touch swipe events to open/close
+                	touch: true
+                });
+            });
 
 			// API Methods:
 			// meny.open();
