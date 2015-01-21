@@ -7,8 +7,10 @@ A three dimensional and space effecient menu. Meny works best in browsers with s
 
 ## Instructions
 
-#### 1. Download
+### 1. Download
 Add [meny.js](https://github.com/hakimel/Meny/blob/master/js/meny.js) to your project. The meny.js file is the only thing required, but you could optionally clone the repository if you want to get the default styles.
+
+Alternatively you can load the meny.js file from cdnjs, see <https://cdnjs.com/libraries/meny>.
 
 ### 2. Markup
 Meny requires two HTML elements to work: a **menu** and the page **contents**. The class names are not used by the library so chose anything you want.
