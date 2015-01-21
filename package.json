@@ -1,0 +1,29 @@
+{
+  "name": "meny",
+  "main": "js/meny.js",
+  "version": "1.4.0",
+  "description": "A three dimensional and space effecient menu",
+  "homepage": "http://lab.hakim.se/meny/",
+  "author": {
+    "name": "Hakim El Hattab",
+    "email": "hakim.elhattab@gmail.com",
+    "url": "http://hakim.se"
+  },
+  "repositories": [
+    {
+      "type": "git",
+      "url": "git://github.com/hakimel/Meny"
+    }
+  ],
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "https://github.com/hakimel/Meny/blob/master/LICENSE"
+    }
+  ],
+  "keywords": [
+    "menu",
+    "meny",
+    "3d"
+  ]
+}
