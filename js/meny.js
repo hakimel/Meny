@@ -347,7 +347,6 @@ var Meny = {
 
 					Meny.addClass( dom.wrapper, 'meny-active' );
 
-					dom.cover.style.height = dom.contents.scrollHeight + 'px';
 					dom.cover.style.visibility = 'visible';
 
 					// Use transforms and transitions if available...
