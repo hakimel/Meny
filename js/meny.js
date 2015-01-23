@@ -278,7 +278,6 @@ var Meny = {
 
 				style.position = 'fixed';
 				style.display = 'block';
-				style.zIndex = 1;
 
 				if( supports3DTransforms ) {
 					style[ Meny.prefix( 'transform' ) ] = menuTransformClosed;

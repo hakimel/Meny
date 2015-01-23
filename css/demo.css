@@ -49,6 +49,7 @@ h2 {
 }
 
 .meny {
+	z-index: 1;
 	display: none;
 	padding: 20px;
 	overflow: auto;
@@ -163,5 +164,3 @@ h2 {
 		position: absolute;
 		bottom: 20px;
 	}
-
-
