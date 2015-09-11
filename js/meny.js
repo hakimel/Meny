@@ -20,7 +20,7 @@
 if( typeof Date.now !== 'function' ) Date.now = function() { return new Date().getTime(); };
 
 var Meny = {
-    
+
     // store all the menys when they're initialized
     _menys: [],
 
@@ -142,10 +142,22 @@ var Meny = {
                         contentsTransformOpened = 'translateY( '+ config.height +'px ) rotateX( ' + contentsAngle + 'deg )';
 
                         // Position fallback:
-                        menuStyleClosed = { top: '-' + (config.height-config.overlap) + 'px' };
-                        menuStyleOpened = { top: '0px' };
-                        contentsStyleClosed = { top: '0px' };
-                        contentsStyleOpened = { top: config.height + 'px' };
+                        menuStyleClosed = {
+                            direction : 'top',
+                            value : '-' + ( config.height-config.overlap ) + 'px'
+                        };
+                        menuStyleOpened = {
+                            direction : 'top',
+                            value : '0px'
+                        };
+                        contentsStyleClosed = {
+                            direction : 'top',
+                            value : '0px'
+                        };
+                        contentsStyleOpened = {
+                            direction : 'top',
+                            value : config.height + 'px'
+                        };
                         break;
 
                     case POSITION_R:
@@ -156,10 +168,22 @@ var Meny = {
                         contentsTransformOpened = 'translateX( -'+ config.width +'px ) rotateY( ' + contentsAngle + 'deg )';
 
                         // Position fallback:
-                        menuStyleClosed = { right: '-' + (config.width-config.overlap) + 'px' };
-                        menuStyleOpened = { right: '0px' };
-                        contentsStyleClosed = { left: '0px' };
-                        contentsStyleOpened = { left: '-' + config.width + 'px' };
+                        menuStyleClosed = {
+                            direction : 'right',
+                            value : '-' + ( config.width-config.overlap ) + 'px'
+                        };
+                        menuStyleOpened = {
+                            direction : 'right',
+                            value : '0px'
+                        };
+                        contentsStyleClosed = {
+                            direction : 'left',
+                            value : '0px'
+                        };
+                        contentsStyleOpened = {
+                            direction : 'left',
+                            value : '-' + config.width + 'px'
+                        };
                         break;
 
                     case POSITION_B:
@@ -170,10 +194,22 @@ var Meny = {
                         contentsTransformOpened = 'translateY( -'+ config.height +'px ) rotateX( ' + -contentsAngle + 'deg )';
 
                         // Position fallback:
-                        menuStyleClosed = { bottom: '-' + (config.height-config.overlap) + 'px' };
-                        menuStyleOpened = { bottom: '0px' };
-                        contentsStyleClosed = { top: '0px' };
-                        contentsStyleOpened = { top: '-' + config.height + 'px' };
+                        menuStyleClosed = {
+                            direction : 'bottom',
+                            value : '-' + ( config.height-config.overlap ) + 'px'
+                        };
+                        menuStyleOpened = {
+                            direction : 'bottom',
+                            value : '0px'
+                        };
+                        contentsStyleClosed = {
+                            direction : 'top',
+                            value : '0px'
+                        };
+                        contentsStyleOpened = {
+                            direction : 'top',
+                            value : '-' + config.height + 'px'
+                        };
                         break;
 
                     default:
@@ -184,10 +220,22 @@ var Meny = {
                         contentsTransformOpened = 'translateX( '+ config.width +'px ) rotateY( ' + -contentsAngle + 'deg )';
 
                         // Position fallback:
-                        menuStyleClosed = { left: '-' + (config.width-config.overlap) + 'px' };
-                        menuStyleOpened = { left: '0px' };
-                        contentsStyleClosed = { left: '0px' };
-                        contentsStyleOpened = { left: config.width + 'px' };
+                        menuStyleClosed = {
+                            direction : 'left',
+                            value : '-' + ( config.width-config.overlap ) + 'px'
+                        };
+                        menuStyleOpened = {
+                            direction : 'left',
+                            value : '0px'
+                        };
+                        contentsStyleClosed = {
+                            direction : 'left',
+                            value : '0px'
+                        };
+                        contentsStyleOpened = {
+                            direction : 'left',
+                            value : config.width + 'px'
+                        };
                         break;
                 }
             }
@@ -391,12 +439,10 @@ var Meny = {
                     }
                     // ...fall back on JS animation
                     else {
-                        menuAnimation && menuAnimation.stop();
-                        menuAnimation = Meny.animate( dom.menu, menuStyleOpened, 500 );
-                        contentsAnimation && contentsAnimation.stop();
-                        contentsAnimation = Meny.animate( dom.contents, contentsStyleOpened, 500 );
-                        coverAnimation && coverAnimation.stop();
-                        coverAnimation = Meny.animate( dom.cover, { opacity: 1 }, 500 );
+                        dom.menu.style[ menuStyleOpened.direction ] = menuStyleOpened.value;
+                        dom.contents.style[ contentsStyleOpened.direction ] = contentsStyleOpened.value;
+                        dom.cover.style.opacity = 1;
+
                     }
 
                     Meny.dispatchEvent( dom.menu, 'open' );
@@ -428,15 +474,11 @@ var Meny = {
                     }
                     // ...fall back on JS animation
                     else {
-                        menuAnimation && menuAnimation.stop();
-                        menuAnimation = Meny.animate( dom.menu, menuStyleClosed, 500 );
-                        contentsAnimation && contentsAnimation.stop();
-                        contentsAnimation = Meny.animate( dom.contents, contentsStyleClosed, 500 );
-                        coverAnimation && coverAnimation.stop();
-                        coverAnimation = Meny.animate( dom.cover, { opacity: 0 }, 500, function() {
-                            dom.cover.style.visibility = 'hidden';
-                            Meny.dispatchEvent( dom.menu, 'closed' );
-                        } );
+                        dom.menu.style[ menuStyleClosed.direction ] = menuStyleClosed.value;
+                        dom.contents.style[ contentsStyleClosed.direction ] = contentsStyleClosed.value;
+                        dom.cover.style.opacity = 0;
+                        dom.cover.style.visibility = 'hidden';
+                        Meny.dispatchEvent( dom.menu, 'closed' );
                     }
                     Meny.dispatchEvent( dom.menu, 'close' );
                 }
