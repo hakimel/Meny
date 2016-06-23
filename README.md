@@ -13,7 +13,7 @@ Add [meny.js](https://github.com/hakimel/Meny/blob/master/js/meny.js) to your pr
 Alternatively you can load the meny.js file from cdnjs, see <https://cdnjs.com/libraries/meny>.
 
 ### 2. Markup
-Meny requires two HTML elements to work: a **menu** and the page **contents**. The class names are not used by the library so chose anything you want.
+Meny requires two HTML elements to work: a **menu** and the page **contents**. The class names are not used by the library so choose anything you want.
 
 ```html
 <body>
