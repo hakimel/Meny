@@ -278,7 +278,6 @@ var Meny = {
 
 				style.position = 'fixed';
 				style.display = 'block';
-				style.zIndex = 1;
 
 				if( supports3DTransforms ) {
 					style[ Meny.prefix( 'transform' ) ] = menuTransformClosed;
@@ -348,7 +347,6 @@ var Meny = {
 
 					Meny.addClass( dom.wrapper, 'meny-active' );
 
-					dom.cover.style.height = dom.contents.scrollHeight + 'px';
 					dom.cover.style.visibility = 'visible';
 
 					// Use transforms and transitions if available...
