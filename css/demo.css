@@ -90,39 +90,39 @@ h2 {
 	     -o-transition: opacity 0.4s ease 0.4s;
 	        transition: opacity 0.4s ease 0.4s;
 }
-	.meny-left .meny-arrow {
-		left: 14px;
-		top: 50%;
-		margin-top: -16px;
-		border-left: 16px solid #333;
-	}
-	.meny-right .meny-arrow {
-		right: 14px;
-		top: 50%;
-		margin-top: -16px;
-		border-right: 16px solid #333;
-	}
-	.meny-top .meny-arrow {
-		left: 50%;
-		top: 14px;
-		margin-left: -16px;
-		border-top: 16px solid #333;
-	}
-	.meny-bottom .meny-arrow {
-		left: 50%;
-		bottom: 14px;
-		margin-left: -16px;
-		border-bottom: 16px solid #333;
-	}
-	.meny-active .meny-arrow {
-		opacity: 0;
-
-		-webkit-transition: opacity 0.2s ease;
-		   -moz-transition: opacity 0.2s ease;
-		    -ms-transition: opacity 0.2s ease;
-		     -o-transition: opacity 0.2s ease;
-		        transition: opacity 0.2s ease;
-	}
+    .meny-arrow.left {
+    	left: 14px;
+    	top: 50%;
+    	margin-top: -16px;
+    	border-left: 16px solid #333;
+    }
+    .meny-arrow.right {
+    	right: 14px;
+    	top: 50%;
+    	margin-top: -16px;
+    	border-right: 16px solid #333;
+    }
+    .meny-arrow.top {
+    	left: 50%;
+    	top: 14px;
+    	margin-left: -16px;
+    	border-top: 16px solid #333;
+    }
+    .meny-arrow.bottom {
+    	left: 50%;
+    	bottom: 14px;
+    	margin-left: -16px;
+    	border-bottom: 16px solid #333;
+    }
+    .meny-active .meny-arrow {
+    	opacity: 0;
+    
+    	-webkit-transition: opacity 0.2s ease;
+    	   -moz-transition: opacity 0.2s ease;
+    	    -ms-transition: opacity 0.2s ease;
+    	     -o-transition: opacity 0.2s ease;
+    	        transition: opacity 0.2s ease;
+    }
 
 /**
  * Main contents area
@@ -132,7 +132,6 @@ h2 {
 	padding: 20px 40px;
 	width: 100%;
 	height: 100%;
-	overflow-y: auto;
 
 	-webkit-overflow-scrolling: touch;
 	-webkit-transform-style: preserve-3d;
@@ -163,5 +162,4 @@ h2 {
 		position: absolute;
 		bottom: 20px;
 	}
-
 
