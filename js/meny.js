@@ -215,6 +215,7 @@ var Meny = {
 				}
 
 				dom.cover = document.createElement( 'div' );
+				Meny.addClass(dom.cover, 'meny-cover');
 
 				// Disabled until a falback fade in animation is added
 				dom.cover.style.position = 'absolute';
